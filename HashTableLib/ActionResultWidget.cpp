@@ -51,7 +51,6 @@ void ActionResultWidget::actionResultCalculatedHandler(IntActionResult actionRes
 {
     if (ActionType::NONE == actionResult.getAction().getType())
     {
-        qDebug() << "ActionResultWidget::actionResultCalculatedHandler NONE action";
         _actionInfo->clear();
         _resultInfo->clear();
         _stepInfo->clear();

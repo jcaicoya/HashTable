@@ -34,14 +34,12 @@ void ActionManagerWidget::executeActionHandler(IntAction action)
 
 void ActionManagerWidget::undoActionHandler()
 {
-    qDebug() << "ActionManagerWidget::undoActionHandler()";
     emit undoAction();
 }
 
 
 void ActionManagerWidget::redoActionHandler()
 {
-    qDebug() << "ActionManagerWidget::redoActionHandler()";
     emit redoAction();
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QString>
+#include <vector>
 
 
 enum class ActionType { INSERT, ERASE, FIND, NONE };

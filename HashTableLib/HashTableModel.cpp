@@ -96,8 +96,6 @@ QVariant HashTableModel::headerData(int section, Qt::Orientation orientation, in
 
 void HashTableModel::loadActionListHandler(const IntActions &actionList)
 {
-    qDebug() << "HashTableModel::loadActionList";
-
     _hashTable.clear();
     _actionResults.resize(1);
     _currentPosition = 1;
@@ -120,7 +118,6 @@ void HashTableModel::loadActionListHandler(const IntActions &actionList)
             break;
             default:
                 invalidAction = true;
-                qWarning() << "HashTableModel::loadActionListHandler() : invalid action";
         }
 
         if (invalidAction) continue;
@@ -145,15 +142,15 @@ void HashTableModel::executeActionHandler(IntAction action)
     {
         case ActionType::INSERT:
            result = _hashTable.insertWithInfo(action.getValue(), resultInfo);
-        break;
+           break;
         case ActionType::ERASE:
            result = _hashTable.eraseWithInfo(action.getValue(), resultInfo);
-        break;
+           break;
         case ActionType::FIND:
            result = _hashTable.findWithInfo(action.getValue(), resultInfo);
-        break;
+           break;
         default:
-            qWarning() << "HashTableModel::executeActionHandler() : action.getType() == ActionType::NONE";
+           return;
     }
 
     IntActionResult actionResult(std::move(action), std::move(resultInfo));
@@ -184,11 +181,7 @@ void HashTableModel::undoActionHandler()
 QString message = "HashTableModel::undoActionHandler()";
     if (_currentPosition > 0)
     {
-message += " pos: " + QString::number(_currentPosition);
         _currentPosition--;
-message += " to " + QString::number(_currentPosition);
-qDebug() << message;
-
         const auto & actionResult = _actionResults[_currentPosition];
         auto resultType = actionResult.getResultInfo()._resultType;
         if (hash_table::ResultType::DONE == resultType)
@@ -210,11 +203,7 @@ void HashTableModel::redoActionHandler()
 QString message = "HashTableModel::redoActionHandler()";
     if (!_actionResults.empty() && _currentPosition < _actionResults.size())
     {
-message += " pos: " + QString::number(_currentPosition);
         _currentPosition++;
-message += " to " + QString::number(_currentPosition);
-qDebug() << message;
-
         const auto & actionResult = _actionResults[_currentPosition - 1];
         auto resultType = actionResult.getResultInfo()._resultType;
         if (hash_table::ResultType::DONE == resultType)
