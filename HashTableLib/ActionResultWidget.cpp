@@ -1,0 +1,75 @@
+#include "ActionResultWidget.h"
+#include <QGridLayout>
+#include <QVBoxLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+
+
+ActionResultWidget::ActionResultWidget(QWidget *parent)
+    : QWidget(parent)
+    , _actionLabel(nullptr)
+    , _actionInfo(nullptr)
+    , _resultLabel(nullptr)
+    , _resultInfo(nullptr)
+    , _stepLabel(nullptr)
+    , _stepInfo(nullptr)
+{
+    _actionLabel = new QLabel("ACTION:");
+    _actionInfo = new QLineEdit;
+    _actionLabel->setBuddy(_actionInfo);
+    _actionInfo->setReadOnly(true);
+
+    _resultLabel = new QLabel("RESULT:");
+    _resultInfo = new QLineEdit;
+    _resultLabel->setBuddy(_actionInfo);
+    _resultInfo->setReadOnly(true);
+
+    _stepLabel = new QLabel("STEPS:");
+    _stepInfo = new QLineEdit;
+    _stepLabel->setBuddy(_actionInfo);
+    _stepInfo->setReadOnly(true);
+
+    QGridLayout *widgetLayout = new QGridLayout;
+    widgetLayout->addWidget(_actionLabel, 0, 0);
+    widgetLayout->addWidget(_actionInfo, 0, 1);
+    widgetLayout->addWidget(_resultLabel, 1, 0);
+    widgetLayout->addWidget(_resultInfo, 1, 1);
+    widgetLayout->addWidget(_stepLabel, 2, 0);
+    widgetLayout->addWidget(_stepInfo, 2, 1);
+
+    QGroupBox *widgetBox = new QGroupBox("ACTION RESULT");
+    widgetBox->setLayout(widgetLayout);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(widgetBox);
+    setLayout(mainLayout);
+}
+
+
+void ActionResultWidget::actionResultCalculatedHandler(IntActionResult actionResult)
+{
+    if (ActionType::NONE == actionResult.getAction().getType())
+    {
+        qDebug() << "ActionResultWidget::actionResultCalculatedHandler NONE action";
+        _actionInfo->clear();
+        _resultInfo->clear();
+        _stepInfo->clear();
+        return;
+    }
+
+    _actionInfo->setText(actionResult.getAction().toString());
+    _resultInfo->setText(hash_table::toString(actionResult.getResultInfo()._resultType).data());
+
+    QString steps;
+    const auto &positions = actionResult.getResultInfo()._positions;
+
+    steps = QString::number(positions.front());
+    for (auto itr = ++(positions.cbegin()); itr != positions.cend(); itr++)
+    {
+        steps += ", ";
+        steps += QString::number(*itr);
+    }
+
+    _stepInfo->setText(steps);
+}
