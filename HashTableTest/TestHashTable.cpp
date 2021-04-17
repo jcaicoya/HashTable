@@ -1,7 +1,6 @@
 #include "TestHashTable.h"
 
 #include <HashTableFactory.h>
-#include <Constants.h>
 
 
 void TestHashTable::toUpper()
@@ -13,11 +12,11 @@ void TestHashTable::toUpper()
 
 void TestHashTable::hashTableOperations()
 {
-    IntHashTable hashTable = HashTableFactory::Build({HashFunction::Type::Identity, RehashFunction::Type::Identity, 5});
+    auto hashTable = HashTableFactory::Build({hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Identity, 5});
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(3, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 3);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -26,8 +25,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.findWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->findWithInfo(3, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 3);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -36,8 +35,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.findWithInfo(4, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->findWithInfo(4, resultInfo);
     QVERIFY(!result.has_value());
     QCOMPARE(toString(resultInfo._resultType), "NOT_DONE");
     QVERIFY(resultInfo._positions.size() == 1);
@@ -45,8 +44,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.eraseWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->eraseWithInfo(3, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 3);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -55,8 +54,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.findWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->findWithInfo(3, resultInfo);
     QVERIFY(!result.has_value());
     QCOMPARE(toString(resultInfo._resultType), "NOT_DONE");
     QVERIFY(resultInfo._positions.size() == 2);
@@ -65,8 +64,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.eraseWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->eraseWithInfo(3, resultInfo);
     QVERIFY(!result.has_value());
     QCOMPARE(toString(resultInfo._resultType), "NOT_DONE");
     QVERIFY(resultInfo._positions.size() == 2);
@@ -75,8 +74,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(3, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(3, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 3);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -85,8 +84,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(8, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(8, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 4);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -96,8 +95,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(13, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(13, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 0);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -108,8 +107,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(18, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(18, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 1);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -121,8 +120,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(23, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(23, resultInfo);
     QVERIFY(result.has_value());
     QCOMPARE(result.value(), 2);
     QCOMPARE(toString(resultInfo._resultType), "DONE");
@@ -135,8 +134,8 @@ void TestHashTable::hashTableOperations()
     }
 
     {
-    array_hash_table::ResultInfo<int> resultInfo;
-    auto result = hashTable.insertWithInfo(28, resultInfo);
+    hash_table::ResultInfo<int> resultInfo;
+    auto result = hashTable->insertWithInfo(28, resultInfo);
     QVERIFY(!result.has_value());
     QCOMPARE(toString(resultInfo._resultType), "OVERFLOWN");
     QVERIFY(resultInfo._positions.size() == 6);

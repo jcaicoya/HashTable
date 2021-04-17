@@ -6,9 +6,9 @@ std::string_view RehashFunction::to_string() const
 }
 
 
-std::string_view RehashFunction::to_string(const RehashFunction &rehasFunction)
+std::string_view RehashFunction::to_string(const RehashFunction &rehashFunction)
 {
-    return to_string(rehasFunction._type);
+    return to_string(rehashFunction._type);
 }
 
 

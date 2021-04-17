@@ -1,21 +1,24 @@
 #pragma once
 
-#include <HashFunction.h>
-#include <RehashFunction.h>
+#include "HashTable.h"
+#include "HashFunction.h"
+#include "RehashFunction.h"
 #include <QString>
 
 
 struct HashTableDefinition
 {
-    HashTableDefinition(HashFunction::Type hashType, RehashFunction::Type rehashType, std::size_t size)
-        : _hashType(hashType)
-        , _rehashType(rehashType)
+    HashTableDefinition(hash_table::Type hashTabletype, HashFunction::Type hashFunctionType, RehashFunction::Type rehashFunctionType, std::size_t size)
+        : _hashTableType(hashTabletype)
+        , _hashFunctionType(hashFunctionType)
+        , _rehashFunctionType(rehashFunctionType)
         , _size(size)
     {}
 
-    const HashFunction::Type _hashType;
-    const RehashFunction::Type _rehashType;
-    const std::size_t _size;
+    hash_table::Type _hashTableType;
+    HashFunction::Type _hashFunctionType;
+    RehashFunction::Type _rehashFunctionType;
+    std::size_t _size;
 
     inline QString to_string() const;
 };
@@ -24,9 +27,10 @@ struct HashTableDefinition
 
 inline QString HashTableDefinition::to_string() const
 {
-    QString hash = HashFunction::to_string(_hashType).data();
-    QString rehash = RehashFunction::to_string(_rehashType).data();
+    QString type = hash_table::to_string(_hashTableType).data();
+    QString hash = HashFunction::to_string(_hashFunctionType).data();
+    QString rehash = RehashFunction::to_string(_rehashFunctionType).data();
     QString size = QString::number(_size);
 
-    return hash + '-' + rehash + '-' + size;
+    return type + '-' + hash + '-' + rehash + '-' + size;
 }

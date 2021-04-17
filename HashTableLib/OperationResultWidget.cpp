@@ -58,7 +58,7 @@ void OperationResultWidget::actionResultCalculatedHandler(IntOperationResult act
     }
 
     _actionInfo->setText(actionResult.getOperation().toString());
-    _resultInfo->setText(array_hash_table::toString(actionResult.getResultInfo()._resultType).data());
+    _resultInfo->setText(hash_table::toString(actionResult.getResultInfo()._resultType).data());
 
     QString steps;
     const auto &positions = actionResult.getResultInfo()._positions;

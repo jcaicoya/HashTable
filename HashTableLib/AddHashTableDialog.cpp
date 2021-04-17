@@ -163,7 +163,7 @@ void AddHashTableDialog::verify()
 
     size_t size = static_cast<size_t>(_sizeLineEdit->text().toInt());
 
-    HashTableDefinition definition { hashType, rehashType, size };
+    HashTableDefinition definition { hash_table::Type::ARRAY, hashType, rehashType, size };
     emit addHashTable(definition);
     accept();
     return;

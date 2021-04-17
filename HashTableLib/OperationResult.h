@@ -9,7 +9,7 @@ template <typename T>
 class OperationResult
 {
 public:
-    using ResultInfo = typename array_hash_table::ResultInfo<T>;
+    using ResultInfo = typename hash_table::ResultInfo<T>;
 
     OperationResult(Operation<T> &&action, ResultInfo &&resultInfo)
         : _action(action)

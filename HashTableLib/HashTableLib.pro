@@ -30,6 +30,8 @@ SOURCES += \
     RemoveHashTableDialog.cpp
 
 HEADERS += \
+    HashTable.h \
+    MatrixHashTable.h \
     Operation.h \
     OperationList.h \
     OperationListModel.h \
@@ -44,6 +46,7 @@ HEADERS += \
     HashFunction.h \
     HashTableDefinition.h \
     HashTableDescriptionWidget.h \
+    HashTableFactory.h \
     HashTableManagerWidget.h \
     HashTableModel.h \
     HashTableWidget.h \

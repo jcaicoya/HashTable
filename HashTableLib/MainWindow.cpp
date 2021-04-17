@@ -196,27 +196,27 @@ void MainWindow::popHashTableOperationSlot()
 void MainWindow::loadSizeConfigurationOperationSlot()
 {
     clearHashTables();
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 7});
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 17});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 7});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 17});
 }
 
 
 void MainWindow::loadHashConfigurationOperationSlot()
 {
     clearHashTables();
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
-    addHashTable({HashFunction::Type::Square, RehashFunction::Type::Identity, 11});
-    addHashTable({HashFunction::Type::Cube, RehashFunction::Type::Identity, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Square, RehashFunction::Type::Identity, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Cube, RehashFunction::Type::Identity, 11});
 }
 
 
 void MainWindow::loadRehashConfigurationOperationSlot()
 {
     clearHashTables();
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Square, 11});
-    addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Cube, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Square, 11});
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Cube, 11});
 }
 
 
@@ -273,7 +273,7 @@ void MainWindow::addHashTableOperationSlot()
    QDialog *dialog = new QDialog;
    dialog->exec();
    static std::size_t tableSize = 10;
-   addHashTable({HashFunction::Type::Identity , RehashFunction::Type::Identity, tableSize++});
+   addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity , RehashFunction::Type::Identity, tableSize++});
 }
 
 
