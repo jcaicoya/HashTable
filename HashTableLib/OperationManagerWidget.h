@@ -1,35 +1,35 @@
 #pragma once
 
-#include "Action.h"
+#include "Operation.h"
 #include <QWidget>
 
 
-class ExecuteActionWidget;
-class ActionListWidget;
-class ActionListModel;
+class ExecuteOperationWidget;
+class OperationListWidget;
+class OperationListModel;
 
 
-class ActionManagerWidget : public QWidget
+class OperationManagerWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ActionManagerWidget(QWidget *parent = nullptr);
+    explicit OperationManagerWidget(QWidget *parent = nullptr);
 
-    void setModel(ActionListModel *actionListModel);
+    void setModel(OperationListModel *actionListModel);
 
 public slots:
-    void executeActionHandler(IntAction action);
-    void undoActionHandler();
-    void redoActionHandler();
+    void executeOperationHandler(IntOperation action);
+    void undoOperationHandler();
+    void redoOperationHandler();
 
 signals:
-    void executeAction(IntAction action);
-    void undoAction();
-    void redoAction();
+    void executeOperation(IntOperation action);
+    void undoOperation();
+    void redoOperation();
 
 private:
-    ExecuteActionWidget *_executeActionWidget;
-    ActionListWidget *_actionListWidget;
+    ExecuteOperationWidget *_executeOperationWidget;
+    OperationListWidget *_actionListWidget;
 };
 

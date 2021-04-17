@@ -12,14 +12,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ActionList.cpp \
-    ActionListModel.cpp \
-    ActionListWidget.cpp \
-    ActionManagerWidget.cpp \
-    ActionResult.cpp \
-    ActionResultWidget.cpp \
+    OperationList.cpp \
+    OperationListModel.cpp \
+    OperationListWidget.cpp \
+    OperationManagerWidget.cpp \
+    OperationResult.cpp \
+    OperationResultWidget.cpp \
     AddHashTableDialog.cpp \
-    ExecuteActionWidget.cpp \
+    ExecuteOperationWidget.cpp \
     HashFunction.cpp \
     HashTableDescriptionWidget.cpp \
     HashTableManagerWidget.cpp \
@@ -30,18 +30,18 @@ SOURCES += \
     RemoveHashTableDialog.cpp
 
 HEADERS += \
-    Action.h \
-    ActionList.h \
-    ActionListModel.h \
-    ActionListWidget.h \
-    ActionManagerWidget.h \
-    ActionResult.h \
-    ActionResultWidget.h \
+    Operation.h \
+    OperationList.h \
+    OperationListModel.h \
+    OperationListWidget.h \
+    OperationManagerWidget.h \
+    OperationResult.h \
+    OperationResultWidget.h \
     AddHashTableDialog.h \
+    ArrayHashTable.h \
     Constants.h \
-    ExecuteActionWidget.h \
+    ExecuteOperationWidget.h \
     HashFunction.h \
-    HashTable.h \
     HashTableDefinition.h \
     HashTableDescriptionWidget.h \
     HashTableManagerWidget.h \

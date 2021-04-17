@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Action.h"
+#include "Operation.h"
 #include <QWidget>
 
 
@@ -9,12 +9,12 @@ class QLineEdit;
 class QPushButton;
 
 
-class ExecuteActionWidget : public QWidget
+class ExecuteOperationWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ExecuteActionWidget(QWidget *parent = nullptr);
+    explicit ExecuteOperationWidget(QWidget *parent = nullptr);
 
 private:
     QRadioButton *_insertButton;
@@ -26,6 +26,6 @@ private:
     void handleExecuteButton();
 
 signals:
-    void executeAction(IntAction);
+    void executeOperation(IntOperation);
 };
 

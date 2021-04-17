@@ -16,7 +16,7 @@ if (_markPosition != NotInTable)
     int row = index.row();
     int col = index.column();
     const int &value = _hashTable.getBucketValue(row);
-    using BucketState = hash_table::BucketState;
+    using BucketState = array_hash_table::BucketState;
     const BucketState state = _hashTable.getBucketState(row);
 
     switch (role) {
@@ -99,35 +99,35 @@ QVariant HashTableModel::headerData(int section, Qt::Orientation orientation, in
 }
 
 
-void HashTableModel::loadActionListHandler(const IntActions &actionList)
+void HashTableModel::loadOperationListHandler(const IntOperations &actionList)
 {
     _hashTable.clear();
     _actionResults.resize(1);
     _currentPosition = 1;
 
-    using Position = hash_table::Position;
+    using Position = array_hash_table::Position;
 
     for (const auto &action : actionList)
     {
         std::optional<Position> result;
-        hash_table::IntResultInfo resultInfo;
-        bool invalidAction = false;
+        array_hash_table::IntResultInfo resultInfo;
+        bool invalidOperation = false;
 
         switch (action.getType())
         {
-            case ActionType::INSERT:
+            case OperationType::INSERT:
                result = _hashTable.insertWithInfo(action.getValue(), resultInfo);
             break;
-            case ActionType::ERASE:
+            case OperationType::ERASE:
                result = _hashTable.eraseWithInfo(action.getValue(), resultInfo);
             break;
             default:
-                invalidAction = true;
+                invalidOperation = true;
         }
 
-        if (invalidAction) continue;
+        if (invalidOperation) continue;
 
-        IntActionResult actionResult(action, std::move(resultInfo));
+        IntOperationResult actionResult(action, std::move(resultInfo));
         _actionResults.push_back(actionResult);
     }
 
@@ -137,23 +137,23 @@ void HashTableModel::loadActionListHandler(const IntActions &actionList)
 }
 
 
-void HashTableModel::executeActionHandler(IntAction action)
+void HashTableModel::executeOperationHandler(IntOperation action)
 {
     static int counter = 1;
-    qDebug() << "exectueActionHandler call: " << counter++;
-    using Position = hash_table::Position;
+    qDebug() << "exectueOperationHandler call: " << counter++;
+    using Position = array_hash_table::Position;
     std::optional<Position> result;
-    hash_table::IntResultInfo resultInfo;
+    array_hash_table::IntResultInfo resultInfo;
 
     switch (action.getType())
     {
-        case ActionType::INSERT:
+        case OperationType::INSERT:
            result = _hashTable.insertWithInfo(action.getValue(), resultInfo);
            break;
-        case ActionType::ERASE:
+        case OperationType::ERASE:
            result = _hashTable.eraseWithInfo(action.getValue(), resultInfo);
            break;
-        case ActionType::FIND:
+        case OperationType::FIND:
            result = _hashTable.findWithInfo(action.getValue(), resultInfo);
            break;
         default:
@@ -177,10 +177,10 @@ void HashTableModel::executeActionHandler(IntAction action)
     emit layoutChanged();
 
 
-    IntActionResult actionResult(std::move(action), std::move(resultInfo));
+    IntOperationResult actionResult(std::move(action), std::move(resultInfo));
 
-    if (ActionType::INSERT == action.getType() ||
-        ActionType::ERASE == action.getType())
+    if (OperationType::INSERT == action.getType() ||
+        OperationType::ERASE == action.getType())
     {
         if (_currentPosition < _actionResults.size())
         {
@@ -194,15 +194,15 @@ void HashTableModel::executeActionHandler(IntAction action)
 }
 
 
-void HashTableModel::undoActionHandler()
+void HashTableModel::undoOperationHandler()
 {
-QString message = "HashTableModel::undoActionHandler()";
+QString message = "HashTableModel::undoOperationHandler()";
     if (_currentPosition > 0)
     {
         _currentPosition--;
         const auto & actionResult = _actionResults[_currentPosition];
         auto resultType = actionResult.getResultInfo()._resultType;
-        if (hash_table::ResultType::DONE == resultType)
+        if (array_hash_table::ResultType::DONE == resultType)
         {
             const auto &positions = actionResult.getResultInfo()._positions;
             const auto &prevBucket = actionResult.getResultInfo()._prevBucket;
@@ -216,15 +216,15 @@ QString message = "HashTableModel::undoActionHandler()";
     }
 }
 
-void HashTableModel::redoActionHandler()
+void HashTableModel::redoOperationHandler()
 {
-QString message = "HashTableModel::redoActionHandler()";
+QString message = "HashTableModel::redoOperationHandler()";
     if (!_actionResults.empty() && _currentPosition < _actionResults.size())
     {
         _currentPosition++;
         const auto & actionResult = _actionResults[_currentPosition - 1];
         auto resultType = actionResult.getResultInfo()._resultType;
-        if (hash_table::ResultType::DONE == resultType)
+        if (array_hash_table::ResultType::DONE == resultType)
         {
             const auto &positions = actionResult.getResultInfo()._positions;
             const auto &prevBucket = actionResult.getResultInfo()._currentBucket;

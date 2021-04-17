@@ -7,5 +7,5 @@ class TestHashTable: public QObject
     Q_OBJECT
 private slots:
     void toUpper();
-    void hashTableActions();
+    void hashTableOperations();
 };

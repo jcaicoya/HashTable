@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QWidget>
-#include "Action.h"
+#include "Operation.h"
 
 class QAbstractTableModel;
 class QTableView;

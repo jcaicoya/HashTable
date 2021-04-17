@@ -1,39 +1,39 @@
 #pragma once
 
-#include "Action.h"
-#include "HashTable.h"
+#include "Operation.h"
+#include "ArrayHashTable.h"
 #include <optional>
 
 
 template <typename T>
-class ActionResult
+class OperationResult
 {
 public:
-    using ResultInfo = typename hash_table::ResultInfo<T>;
+    using ResultInfo = typename array_hash_table::ResultInfo<T>;
 
-    ActionResult(Action<T> &&action, ResultInfo &&resultInfo)
+    OperationResult(Operation<T> &&action, ResultInfo &&resultInfo)
         : _action(action)
         , _resultInfo(resultInfo)
     {}
 
-    ActionResult(const Action<T> &action, ResultInfo &&resultInfo)
+    OperationResult(const Operation<T> &action, ResultInfo &&resultInfo)
         : _action(action)
         , _resultInfo(resultInfo)
     {}
 
-    const Action<T> & getAction() const { return _action; }
+    const Operation<T> & getOperation() const { return _action; }
     const ResultInfo & getResultInfo() const { return _resultInfo; }
 
-    ActionResult()
+    OperationResult()
         : _action()
         , _resultInfo()
     {}
 
 private:
-    Action<T> _action;
+    Operation<T> _action;
     ResultInfo _resultInfo;
 };
 
 
-using IntActionResult = ActionResult<int>;
+using IntOperationResult = OperationResult<int>;
 

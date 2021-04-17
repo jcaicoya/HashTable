@@ -1,51 +1,51 @@
-#include "ActionManagerWidget.h"
+#include "OperationManagerWidget.h"
 
-#include "ExecuteActionWidget.h"
-#include "ActionListWidget.h"
-#include "ActionListModel.h"
+#include "ExecuteOperationWidget.h"
+#include "OperationListWidget.h"
+#include "OperationListModel.h"
 #include <QVBoxLayout>
 
 
-ActionManagerWidget::ActionManagerWidget(QWidget *parent)
+OperationManagerWidget::OperationManagerWidget(QWidget *parent)
     : QWidget(parent)
-    , _executeActionWidget(nullptr)
+    , _executeOperationWidget(nullptr)
     , _actionListWidget(nullptr)
 {
-    _executeActionWidget = new ExecuteActionWidget(this);
-    _actionListWidget = new ActionListWidget(this);
+    _executeOperationWidget = new ExecuteOperationWidget(this);
+    _actionListWidget = new OperationListWidget(this);
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(_executeActionWidget);
+    layout->addWidget(_executeOperationWidget);
     layout->addWidget(_actionListWidget);
 
     this->setLayout(layout);
 
-    connect(_executeActionWidget, &ExecuteActionWidget::executeAction, this, &ActionManagerWidget::executeActionHandler);
-    connect(_actionListWidget, &ActionListWidget::undoAction, this, &ActionManagerWidget::undoActionHandler);
-    connect(_actionListWidget, &ActionListWidget::redoAction, this, &ActionManagerWidget::redoActionHandler);
+    connect(_executeOperationWidget, &ExecuteOperationWidget::executeOperation, this, &OperationManagerWidget::executeOperationHandler);
+    connect(_actionListWidget, &OperationListWidget::undoOperation, this, &OperationManagerWidget::undoOperationHandler);
+    connect(_actionListWidget, &OperationListWidget::redoOperation, this, &OperationManagerWidget::redoOperationHandler);
 }
 
 
-void ActionManagerWidget::executeActionHandler(IntAction action)
+void OperationManagerWidget::executeOperationHandler(IntOperation action)
 {
-    emit executeAction(action);
+    emit executeOperation(action);
 }
 
 
-void ActionManagerWidget::undoActionHandler()
+void OperationManagerWidget::undoOperationHandler()
 {
-    emit undoAction();
+    emit undoOperation();
 }
 
 
-void ActionManagerWidget::redoActionHandler()
+void OperationManagerWidget::redoOperationHandler()
 {
-    emit redoAction();
+    emit redoOperation();
 }
 
 
-void ActionManagerWidget::setModel(ActionListModel *actionListModel)
+void OperationManagerWidget::setModel(OperationListModel *actionListModel)
 {
     _actionListWidget->setModel(actionListModel);
-    connect(actionListModel, &ActionListModel::currentPositionChanged, _actionListWidget, &ActionListWidget::currentPositionChangedHandler);
+    connect(actionListModel, &OperationListModel::currentPositionChanged, _actionListWidget, &OperationListWidget::currentPositionChangedHandler);
 }

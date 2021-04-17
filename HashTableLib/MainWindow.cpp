@@ -1,6 +1,6 @@
 #include "MainWindow.h"
-#include "ActionManagerWidget.h"
-#include "ActionListModel.h"
+#include "OperationManagerWidget.h"
+#include "OperationListModel.h"
 #include "HashTableManagerWidget.h"
 #include "HashTableModel.h"
 #include "HashTableFactory.h"
@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     , _hashTableManagerWidgetList()
     , _hashTableModelList()
 {
-    _actionManagerWidget = new ActionManagerWidget;
-    _actionListModel = new ActionListModel(this);
+    _actionManagerWidget = new OperationManagerWidget;
+    _actionListModel = new OperationListModel(this);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(_actionManagerWidget);
@@ -33,87 +33,87 @@ MainWindow::MainWindow(QWidget *parent)
 
     _actionManagerWidget->setModel(_actionListModel);
 
-    createActions();
+    createOperations();
 
-    connect(this, &MainWindow::loadActionList, _actionListModel, &ActionListModel::loadActionListHandler);
-    connect(_actionManagerWidget, &ActionManagerWidget::executeAction, _actionListModel, &ActionListModel::executeActionHandler);
-    connect(_actionManagerWidget, &ActionManagerWidget::undoAction, _actionListModel, &ActionListModel::undoActionHandler);
-    connect(_actionManagerWidget, &ActionManagerWidget::redoAction, _actionListModel, &ActionListModel::redoActionHandler);
+    connect(this, &MainWindow::loadOperationList, _actionListModel, &OperationListModel::loadOperationListHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::executeOperation, _actionListModel, &OperationListModel::executeOperationHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::undoOperation, _actionListModel, &OperationListModel::undoOperationHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::redoOperation, _actionListModel, &OperationListModel::redoOperationHandler);
 }
 
 
-void MainWindow::createActions()
+void MainWindow::createOperations()
 {
     QMenu *configurationMenu = menuBar()->addMenu(tr("&Configurations"));
     QToolBar *configurationToolBar = addToolBar(tr("Configurations"));
 
-    QAction *sizeConfigurationAction = new QAction(tr("Sizes"), this);
-    sizeConfigurationAction->setStatusTip(tr("Load three tables with different sizes"));
-    connect(sizeConfigurationAction, &QAction::triggered, this, &MainWindow::loadSizeConfigurationActionSlot);
-    configurationMenu->addAction(sizeConfigurationAction);
-    configurationToolBar->addAction(sizeConfigurationAction);
+    QAction *sizeConfigurationOperation = new QAction(tr("Sizes"), this);
+    sizeConfigurationOperation->setStatusTip(tr("Load three tables with different sizes"));
+    connect(sizeConfigurationOperation, &QAction::triggered, this, &MainWindow::loadSizeConfigurationOperationSlot);
+    configurationMenu->addAction(sizeConfigurationOperation);
+    configurationToolBar->addAction(sizeConfigurationOperation);
 
-    QAction *hashConfigurationAction = new QAction(tr("Hashes"), this);
-    hashConfigurationAction->setStatusTip(tr("Load three tables with different hashes"));
-    connect(hashConfigurationAction, &QAction::triggered, this, &MainWindow::loadHashConfigurationActionSlot);
-    configurationMenu->addAction(hashConfigurationAction);
-    configurationToolBar->addAction(hashConfigurationAction);
+    QAction *hashConfigurationOperation = new QAction(tr("Hashes"), this);
+    hashConfigurationOperation->setStatusTip(tr("Load three tables with different hashes"));
+    connect(hashConfigurationOperation, &QAction::triggered, this, &MainWindow::loadHashConfigurationOperationSlot);
+    configurationMenu->addAction(hashConfigurationOperation);
+    configurationToolBar->addAction(hashConfigurationOperation);
 
-    QAction *rehashConfigurationAction = new QAction(tr("Rehashes"), this);
-    hashConfigurationAction->setStatusTip(tr("Load three tables with different rehashes"));
-    connect(rehashConfigurationAction, &QAction::triggered, this, &MainWindow::loadRehashConfigurationActionSlot);
-    configurationMenu->addAction(rehashConfigurationAction);
-    configurationToolBar->addAction(rehashConfigurationAction);
+    QAction *rehashConfigurationOperation = new QAction(tr("Rehashes"), this);
+    hashConfigurationOperation->setStatusTip(tr("Load three tables with different rehashes"));
+    connect(rehashConfigurationOperation, &QAction::triggered, this, &MainWindow::loadRehashConfigurationOperationSlot);
+    configurationMenu->addAction(rehashConfigurationOperation);
+    configurationToolBar->addAction(rehashConfigurationOperation);
 
 
     QMenu *operationMenu = menuBar()->addMenu(tr("&Operations"));
     QToolBar *operationToolBar = addToolBar(tr("Operations"));
 
-    QAction *sizeOperationAction = new QAction(tr("Sizes"), this);
-    sizeOperationAction->setStatusTip(tr("Load operation list example for different sizes"));
-    connect(sizeOperationAction, &QAction::triggered, this, &MainWindow::loadSizeOperationListActionSlot);
-    operationMenu->addAction(sizeOperationAction);
-    operationToolBar->addAction(sizeOperationAction);
+    QAction *sizeOperationOperation = new QAction(tr("Sizes"), this);
+    sizeOperationOperation->setStatusTip(tr("Load operation list example for different sizes"));
+    connect(sizeOperationOperation, &QAction::triggered, this, &MainWindow::loadSizeOperationListOperationSlot);
+    operationMenu->addAction(sizeOperationOperation);
+    operationToolBar->addAction(sizeOperationOperation);
 
-    QAction *hashOperationAction = new QAction(tr("Hashes"), this);
-    hashOperationAction->setStatusTip(tr("Load operation example for different hashes"));
-    connect(hashOperationAction, &QAction::triggered, this, &MainWindow::loadHashOperationListActionSlot);
-    operationMenu->addAction(hashOperationAction);
-    operationToolBar->addAction(hashOperationAction);
+    QAction *hashOperationOperation = new QAction(tr("Hashes"), this);
+    hashOperationOperation->setStatusTip(tr("Load operation example for different hashes"));
+    connect(hashOperationOperation, &QAction::triggered, this, &MainWindow::loadHashOperationListOperationSlot);
+    operationMenu->addAction(hashOperationOperation);
+    operationToolBar->addAction(hashOperationOperation);
 
-    QAction *rehashOperationAction = new QAction(tr("Rehashes"), this);
-    hashOperationAction->setStatusTip(tr("Load operation example for different rehashes"));
-    connect(rehashOperationAction, &QAction::triggered, this, &MainWindow::loadRehashOperationListActionSlot);
-    operationMenu->addAction(rehashOperationAction);
-    operationToolBar->addAction(rehashOperationAction);
+    QAction *rehashOperationOperation = new QAction(tr("Rehashes"), this);
+    hashOperationOperation->setStatusTip(tr("Load operation example for different rehashes"));
+    connect(rehashOperationOperation, &QAction::triggered, this, &MainWindow::loadRehashOperationListOperationSlot);
+    operationMenu->addAction(rehashOperationOperation);
+    operationToolBar->addAction(rehashOperationOperation);
 
 
     QMenu *hashTableMenu = menuBar()->addMenu(tr("&HashTables"));
-    QToolBar *HashTableToolBar = addToolBar(tr("HashTable"));
+    QToolBar *HashTableToolBar = addToolBar(tr("ArrayHashTable"));
 
-    QAction *newHashTableAction = new QAction(tr("Add"), this);
-    newHashTableAction->setStatusTip(tr("Create a new hash table"));
-    connect(newHashTableAction, &QAction::triggered, this, &MainWindow::addHashTableActionSlot);
-    hashTableMenu->addAction(newHashTableAction);
-    HashTableToolBar->addAction(newHashTableAction);
+    QAction *newHashTableOperation = new QAction(tr("Add"), this);
+    newHashTableOperation->setStatusTip(tr("Create a new hash table"));
+    connect(newHashTableOperation, &QAction::triggered, this, &MainWindow::addHashTableOperationSlot);
+    hashTableMenu->addAction(newHashTableOperation);
+    HashTableToolBar->addAction(newHashTableOperation);
 
-    QAction *removeHashTableAction = new QAction(tr("Remove"), this);
-    removeHashTableAction->setStatusTip(tr("Remove hash table"));
-    connect(removeHashTableAction, &QAction::triggered, this, &MainWindow::removeHashTableActionSlot);
-    hashTableMenu->addAction(removeHashTableAction);
-    HashTableToolBar->addAction(removeHashTableAction);
+    QAction *removeHashTableOperation = new QAction(tr("Remove"), this);
+    removeHashTableOperation->setStatusTip(tr("Remove hash table"));
+    connect(removeHashTableOperation, &QAction::triggered, this, &MainWindow::removeHashTableOperationSlot);
+    hashTableMenu->addAction(removeHashTableOperation);
+    HashTableToolBar->addAction(removeHashTableOperation);
 
-    QAction *popHashTableAction = new QAction(tr("Pop"), this);
-    popHashTableAction->setStatusTip(tr("Remove last hash table"));
-    connect(popHashTableAction, &QAction::triggered, this, &MainWindow::popHashTableActionSlot);
-    hashTableMenu->addAction(popHashTableAction);
-    HashTableToolBar->addAction(popHashTableAction);
+    QAction *popHashTableOperation = new QAction(tr("Pop"), this);
+    popHashTableOperation->setStatusTip(tr("Remove last hash table"));
+    connect(popHashTableOperation, &QAction::triggered, this, &MainWindow::popHashTableOperationSlot);
+    hashTableMenu->addAction(popHashTableOperation);
+    HashTableToolBar->addAction(popHashTableOperation);
 
-    QAction *clearHashTableAction = new QAction(tr("Clear"), this);
-    clearHashTableAction->setStatusTip(tr("Remove all hash tables"));
-    connect(clearHashTableAction, &QAction::triggered, this, &MainWindow::clearHashTablesActionSlot);
-    hashTableMenu->addAction(clearHashTableAction);
-    HashTableToolBar->addAction(clearHashTableAction);
+    QAction *clearHashTableOperation = new QAction(tr("Clear"), this);
+    clearHashTableOperation->setStatusTip(tr("Remove all hash tables"));
+    connect(clearHashTableOperation, &QAction::triggered, this, &MainWindow::clearHashTablesOperationSlot);
+    hashTableMenu->addAction(clearHashTableOperation);
+    HashTableToolBar->addAction(clearHashTableOperation);
 }
 
 
@@ -124,13 +124,13 @@ void MainWindow::addHashTable(const HashTableDefinition &definition)
     hashTableManagerWidget->setModel(hashTableModel);
     this->centralWidget()->layout()->addWidget(hashTableManagerWidget);
 
-    connect(this, &MainWindow::loadActionList, hashTableModel, &HashTableModel::loadActionListHandler);
+    connect(this, &MainWindow::loadOperationList, hashTableModel, &HashTableModel::loadOperationListHandler);
 
     connect(hashTableModel, &HashTableModel::actionResultCalculated, hashTableManagerWidget, &HashTableManagerWidget::actionResultCalculatedHandler);
 
-    connect(_actionManagerWidget, &ActionManagerWidget::executeAction, hashTableModel, &HashTableModel::executeActionHandler);
-    connect(_actionManagerWidget, &ActionManagerWidget::undoAction, hashTableModel, &HashTableModel::undoActionHandler);
-    connect(_actionManagerWidget, &ActionManagerWidget::redoAction, hashTableModel, &HashTableModel::redoActionHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::executeOperation, hashTableModel, &HashTableModel::executeOperationHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::undoOperation, hashTableModel, &HashTableModel::undoOperationHandler);
+    connect(_actionManagerWidget, &OperationManagerWidget::redoOperation, hashTableModel, &HashTableModel::redoOperationHandler);
 
     _hashTableManagerWidgetList.push_back(hashTableManagerWidget);
     _hashTableModelList.push_back(hashTableModel);
@@ -142,11 +142,11 @@ void MainWindow::removeHashTable(size_t tableIndex)
     auto hashTableManagerWidget = _hashTableManagerWidgetList.takeAt(tableIndex);
     auto hashTableModel = _hashTableModelList.takeAt(tableIndex);
 
-    disconnect(this, &MainWindow::loadActionList, hashTableModel, &HashTableModel::loadActionListHandler);
+    disconnect(this, &MainWindow::loadOperationList, hashTableModel, &HashTableModel::loadOperationListHandler);
     disconnect(hashTableModel, &HashTableModel::actionResultCalculated, hashTableManagerWidget, &HashTableManagerWidget::actionResultCalculatedHandler);
-    disconnect(_actionManagerWidget, &ActionManagerWidget::executeAction, hashTableModel, &HashTableModel::executeActionHandler);
-    disconnect(_actionManagerWidget, &ActionManagerWidget::undoAction, hashTableModel, &HashTableModel::undoActionHandler);
-    disconnect(_actionManagerWidget, &ActionManagerWidget::redoAction, hashTableModel, &HashTableModel::redoActionHandler);
+    disconnect(_actionManagerWidget, &OperationManagerWidget::executeOperation, hashTableModel, &HashTableModel::executeOperationHandler);
+    disconnect(_actionManagerWidget, &OperationManagerWidget::undoOperation, hashTableModel, &HashTableModel::undoOperationHandler);
+    disconnect(_actionManagerWidget, &OperationManagerWidget::redoOperation, hashTableModel, &HashTableModel::redoOperationHandler);
 
     hashTableManagerWidget->deleteLater();
     hashTableModel->deleteLater();
@@ -177,7 +177,7 @@ void MainWindow::removeHashTableHandler(size_t tableIndex)
 }
 
 
-void MainWindow::clearHashTablesActionSlot()
+void MainWindow::clearHashTablesOperationSlot()
 {
     while (!_hashTableManagerWidgetList.empty())
     {
@@ -187,13 +187,13 @@ void MainWindow::clearHashTablesActionSlot()
 
 
 
-void MainWindow::popHashTableActionSlot()
+void MainWindow::popHashTableOperationSlot()
 {
     popHashTable();
 }
 
 
-void MainWindow::loadSizeConfigurationActionSlot()
+void MainWindow::loadSizeConfigurationOperationSlot()
 {
     clearHashTables();
     addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 7});
@@ -202,7 +202,7 @@ void MainWindow::loadSizeConfigurationActionSlot()
 }
 
 
-void MainWindow::loadHashConfigurationActionSlot()
+void MainWindow::loadHashConfigurationOperationSlot()
 {
     clearHashTables();
     addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
@@ -211,7 +211,7 @@ void MainWindow::loadHashConfigurationActionSlot()
 }
 
 
-void MainWindow::loadRehashConfigurationActionSlot()
+void MainWindow::loadRehashConfigurationOperationSlot()
 {
     clearHashTables();
     addHashTable({HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
@@ -220,54 +220,54 @@ void MainWindow::loadRehashConfigurationActionSlot()
 }
 
 
-void MainWindow::loadSizeOperationListActionSlot()
+void MainWindow::loadSizeOperationListOperationSlot()
 {
-    std::vector<IntAction> actionList
+    std::vector<IntOperation> actionList
     {
-        { ActionType::INSERT, 3 },
-        { ActionType::ERASE, 3 },
-        { ActionType::INSERT, 13 },
-        { ActionType::INSERT, 23 },
-        { ActionType::INSERT, 33 },
-        { ActionType::INSERT, 43 },
-        { ActionType::INSERT, 53 }
+        { OperationType::INSERT, 3 },
+        { OperationType::ERASE, 3 },
+        { OperationType::INSERT, 13 },
+        { OperationType::INSERT, 23 },
+        { OperationType::INSERT, 33 },
+        { OperationType::INSERT, 43 },
+        { OperationType::INSERT, 53 }
     };
 
-    emit loadActionList(actionList);
+    emit loadOperationList(actionList);
 }
 
 
-void MainWindow::loadHashOperationListActionSlot()
+void MainWindow::loadHashOperationListOperationSlot()
 {
-    std::vector<IntAction> actionList
+    std::vector<IntOperation> actionList
     {
-        { ActionType::INSERT, 3 },
-        { ActionType::INSERT, 13 },
-        { ActionType::INSERT, 23 },
-        { ActionType::INSERT, 33 },
-        { ActionType::INSERT, 43 },
-        { ActionType::INSERT, 53 }
+        { OperationType::INSERT, 3 },
+        { OperationType::INSERT, 13 },
+        { OperationType::INSERT, 23 },
+        { OperationType::INSERT, 33 },
+        { OperationType::INSERT, 43 },
+        { OperationType::INSERT, 53 }
     };
-    emit loadActionList(actionList);
+    emit loadOperationList(actionList);
 }
 
 
-void MainWindow::loadRehashOperationListActionSlot()
+void MainWindow::loadRehashOperationListOperationSlot()
 {
-    std::vector<IntAction> actionList
+    std::vector<IntOperation> actionList
     {
-        { ActionType::INSERT, 3 },
-        { ActionType::INSERT, 13 },
-        { ActionType::INSERT, 23 },
-        { ActionType::INSERT, 33 },
-        { ActionType::INSERT, 43 },
-        { ActionType::INSERT, 53 }
+        { OperationType::INSERT, 3 },
+        { OperationType::INSERT, 13 },
+        { OperationType::INSERT, 23 },
+        { OperationType::INSERT, 33 },
+        { OperationType::INSERT, 43 },
+        { OperationType::INSERT, 53 }
     };
-    emit loadActionList(actionList);
+    emit loadOperationList(actionList);
 }
 
 
-void MainWindow::addHashTableActionSlot()
+void MainWindow::addHashTableOperationSlot()
 {
     // TODO
    QDialog *dialog = new QDialog;
@@ -277,7 +277,7 @@ void MainWindow::addHashTableActionSlot()
 }
 
 
-void MainWindow::removeHashTableActionSlot()
+void MainWindow::removeHashTableOperationSlot()
 {
     RemoveHashTableDialog *removeHashTableDialog = new RemoveHashTableDialog(_hashTableModelList);
     connect(removeHashTableDialog, &RemoveHashTableDialog::removeHashTable, this, &MainWindow::removeHashTableHandler);

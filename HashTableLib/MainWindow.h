@@ -1,14 +1,14 @@
 #pragma once
 
 #include <QMainWindow>
-#include "Action.h"
-#include "ActionResult.h"
+#include "Operation.h"
+#include "OperationResult.h"
 #include <QList>
 
 class HashFunction;
 class RehashFunction;
-class ActionManagerWidget;
-class ActionListModel;
+class OperationManagerWidget;
+class OperationListModel;
 class HashTableManagerWidget;
 class HashTableModel;
 class MainModel;
@@ -24,10 +24,10 @@ public:
     ~MainWindow() = default;
 
 signals:
-    void loadActionList(const std::vector<IntAction> &actionList);
+    void loadOperationList(const std::vector<IntOperation> &actionList);
 
 private:
-    void createActions();
+    void createOperations();
     void addHashTable(const HashTableDefinition &definition);
     void removeHashTable(size_t tableIndex);
     void popHashTable();
@@ -36,8 +36,8 @@ private:
     using HashTableWidgetList = QList<HashTableManagerWidget *>;
     using HashTableModelList = QList<HashTableModel *>;
 
-    ActionManagerWidget *_actionManagerWidget;
-    ActionListModel *_actionListModel;
+    OperationManagerWidget *_actionManagerWidget;
+    OperationListModel *_actionListModel;
     HashTableWidgetList _hashTableManagerWidgetList;
     HashTableModelList _hashTableModelList;
 
@@ -45,14 +45,14 @@ public slots:
     void removeHashTableHandler(size_t tableIndex);
 
 private slots:
-    void loadSizeConfigurationActionSlot();
-    void loadHashConfigurationActionSlot();
-    void loadRehashConfigurationActionSlot();
-    void loadSizeOperationListActionSlot();
-    void loadHashOperationListActionSlot();
-    void loadRehashOperationListActionSlot();
-    void addHashTableActionSlot();
-    void removeHashTableActionSlot();
-    void popHashTableActionSlot();
-    void clearHashTablesActionSlot();
+    void loadSizeConfigurationOperationSlot();
+    void loadHashConfigurationOperationSlot();
+    void loadRehashConfigurationOperationSlot();
+    void loadSizeOperationListOperationSlot();
+    void loadHashOperationListOperationSlot();
+    void loadRehashOperationListOperationSlot();
+    void addHashTableOperationSlot();
+    void removeHashTableOperationSlot();
+    void popHashTableOperationSlot();
+    void clearHashTablesOperationSlot();
 };

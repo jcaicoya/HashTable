@@ -1,4 +1,4 @@
-#include "ExecuteActionWidget.h"
+#include "ExecuteOperationWidget.h"
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QPushButton>
@@ -7,7 +7,7 @@
 #include <QLineEdit>
 
 
-ExecuteActionWidget::ExecuteActionWidget(QWidget *parent)
+ExecuteOperationWidget::ExecuteOperationWidget(QWidget *parent)
     : QWidget(parent)
     , _insertButton(nullptr)
     , _eraseButton(nullptr)
@@ -44,11 +44,11 @@ ExecuteActionWidget::ExecuteActionWidget(QWidget *parent)
     mainLayout->addWidget(widgetBox);
     setLayout(mainLayout);
 
-    connect(_executeButton, &QPushButton::released, this, &ExecuteActionWidget::handleExecuteButton);
+    connect(_executeButton, &QPushButton::released, this, &ExecuteOperationWidget::handleExecuteButton);
 }
 
 
-void ExecuteActionWidget::handleExecuteButton()
+void ExecuteOperationWidget::handleExecuteButton()
 {
     if (_valueEdit->text().isEmpty())
     {
@@ -65,17 +65,17 @@ void ExecuteActionWidget::handleExecuteButton()
         return;
     }
 
-    ActionType actionType = ActionType::INSERT;
+    OperationType actionType = OperationType::INSERT;
     if (_eraseButton->isChecked())
     {
-        actionType = ActionType::ERASE;
+        actionType = OperationType::ERASE;
     }
     else if (_findButton->isChecked())
     {
-        actionType = ActionType::FIND;
+        actionType = OperationType::FIND;
     }
 
-    IntAction action(actionType, value);
+    IntOperation action(actionType, value);
 
-    emit executeAction(action);
+    emit executeOperation(action);
 }

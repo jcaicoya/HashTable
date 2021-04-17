@@ -1,4 +1,4 @@
-#include "ActionListWidget.h"
+#include "OperationListWidget.h"
 #include <QGroupBox>
 #include <QTableView>
 #include <QStringList>
@@ -6,10 +6,10 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QAbstractTableModel>
-#include <ActionListModel.h>
+#include <OperationListModel.h>
 
 
-ActionListWidget::ActionListWidget(QWidget *parent)
+OperationListWidget::OperationListWidget(QWidget *parent)
     : QWidget(parent)
     , _actionList(nullptr)
     , _undoButton(nullptr)
@@ -35,25 +35,25 @@ ActionListWidget::ActionListWidget(QWidget *parent)
     mainLayout->addWidget(widgetBox);
     setLayout(mainLayout);
 
-    connect(_undoButton, &QPushButton::released, this, &ActionListWidget::undoAction);
-    connect(_redoButton, &QPushButton::released, this, &ActionListWidget::redoAction);
+    connect(_undoButton, &QPushButton::released, this, &OperationListWidget::undoOperation);
+    connect(_redoButton, &QPushButton::released, this, &OperationListWidget::redoOperation);
 }
 
 
-void ActionListWidget::setModel(QAbstractTableModel *model)
+void OperationListWidget::setModel(QAbstractTableModel *model)
 {
     _actionList->setModel(model);
 }
 
 
-void ActionListWidget::currentPositionChangedHandler()
+void OperationListWidget::currentPositionChangedHandler()
 {
-    IntActionList::Position currentPosition = static_cast<ActionListModel *>(_actionList->model())->getCurrentPosition();
+    IntOperationList::Position currentPosition = static_cast<OperationListModel *>(_actionList->model())->getCurrentPosition();
 
     const bool undoButtonEnabled = (currentPosition > 0);
     _undoButton->setEnabled(undoButtonEnabled);
 
-    IntActionList::Position actionListSize = static_cast<ActionListModel *>(_actionList->model())->getActionListSize();
+    IntOperationList::Position actionListSize = static_cast<OperationListModel *>(_actionList->model())->getOperationListSize();
 
     const bool redoButtonEnabled = (currentPosition < actionListSize);
     _redoButton->setEnabled(redoButtonEnabled);

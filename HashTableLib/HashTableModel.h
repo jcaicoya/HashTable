@@ -1,14 +1,14 @@
 #pragma once
 
-#include "HashTable.h"
+#include "ArrayHashTable.h"
 #include "Constants.h"
-#include "Action.h"
-#include "ActionResult.h"
+#include "Operation.h"
+#include "OperationResult.h"
 #include "HashTableDefinition.h"
 #include <QAbstractTableModel>
 
 
-using IntHashTable = HashTable<int>;
+using IntHashTable = ArrayHashTable<int>;
 
 
 class HashTableModel : public QAbstractTableModel
@@ -24,7 +24,7 @@ public:
       , _currentPosition(0)
       , _markPosition(NotInTable)
     {
-        _actionResults.push_back(IntActionResult());
+        _actionResults.push_back(IntOperationResult());
         _currentPosition++;
     }
 
@@ -36,19 +36,19 @@ public:
     QString getHashTableDefinition() const { return _hashTableDefinition.to_string(); }
 
 public slots:
-    void loadActionListHandler(const IntActions &actionList);
-    void executeActionHandler(IntAction action);
-    void undoActionHandler();
-    void redoActionHandler();
+    void loadOperationListHandler(const IntOperations &actionList);
+    void executeOperationHandler(IntOperation action);
+    void undoOperationHandler();
+    void redoOperationHandler();
 
 signals:
-    void actionResultCalculated(IntActionResult actionResult);
+    void actionResultCalculated(IntOperationResult actionResult);
 
 private:
     using Position = std::size_t;
     HashTableDefinition _hashTableDefinition;
     IntHashTable _hashTable;
-    std::vector<IntActionResult> _actionResults;
+    std::vector<IntOperationResult> _actionResults;
     Position _currentPosition;
     Position _markPosition;
 

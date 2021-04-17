@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HashTable.h"
+#include "ArrayHashTable.h"
 #include "HashTableDefinition.h"
 
 

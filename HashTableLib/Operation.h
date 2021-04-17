@@ -4,9 +4,9 @@
 #include <vector>
 
 
-enum class ActionType { INSERT, ERASE, FIND, NONE };
+enum class OperationType { INSERT, ERASE, FIND, NONE };
 
-inline QString toString(ActionType type)
+inline QString toString(OperationType type)
 {
     static QString Insert("INSERT");
     static QString Erase("ERASE");
@@ -14,11 +14,11 @@ inline QString toString(ActionType type)
 
     switch (type)
     {
-        case ActionType::INSERT:
+        case OperationType::INSERT:
             return Insert;
-        case ActionType::ERASE:
+        case OperationType::ERASE:
             return Erase;
-        case ActionType::FIND:
+        case OperationType::FIND:
             return Find;
         default:
             return QString();
@@ -27,50 +27,50 @@ inline QString toString(ActionType type)
 
 
 template <typename T>
-class Action
+class Operation
 {
 public:
-    Action(ActionType type, const T &value)
+    Operation(OperationType type, const T &value)
         : _type(type)
         , _value(value)
     {}
 
-    ActionType getType() const { return _type; }
+    OperationType getType() const { return _type; }
     const T & getValue() const { return _value; }
     inline QString toString() const;
 
-    Action()
-        : _type(ActionType::NONE)
+    Operation()
+        : _type(OperationType::NONE)
         , _value()
     {}
 
 private:
-    ActionType _type;
+    OperationType _type;
     T _value;
 };
 
 
-using IntAction = Action<int>;
-using IntActions = std::vector<IntAction>;
-using StringAction = Action<QString>;
+using IntOperation = Operation<int>;
+using IntOperations = std::vector<IntOperation>;
+using StringOperation = Operation<QString>;
 
 
 template <typename T>
-inline QString Action<T>::toString() const
+inline QString Operation<T>::toString() const
 {
     return toString(_type) + ' ' + toString(_value);
 }
 
 
 template <>
-inline QString Action<QString>::toString() const
+inline QString Operation<QString>::toString() const
 {
     return ::toString(_type) + ' ' + _value;
 }
 
 
 template <>
-inline QString Action<int>::toString() const
+inline QString Operation<int>::toString() const
 {
     return ::toString(_type) + ' ' + QString::number(_value);
 }

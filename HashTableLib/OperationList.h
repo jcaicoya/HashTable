@@ -1,33 +1,33 @@
 #pragma once
 
-#include "Action.h"
+#include "Operation.h"
 #include <vector>
 
 
 
 template <typename T>
-class ActionList
+class OperationList
 {
 public:
-    ActionList()
+    OperationList()
         : _actions()
         , _currentPosition(0)
     {}
 
     using Position = std::size_t;
 
-    void add(const Action<T> &action) { _actions.push_back(action); _currentPosition = _actions.size(); }
+    void add(const Operation<T> &action) { _actions.push_back(action); _currentPosition = _actions.size(); }
     std::size_t size() const { return _actions.size(); }
-    const Action<T> & get(Position position) const { return _actions[position]; }
+    const Operation<T> & get(Position position) const { return _actions[position]; }
     Position getCurrentPosition() const { return _currentPosition; }
     bool undo() { if (_currentPosition > 0) { _currentPosition--; return true; } else return false; }
     bool redo() { if (_currentPosition < _actions.size()) { _currentPosition++; return true;} else return false; }
 
 private:
-    using Actions = std::vector<Action<T>>;
+    using Operations = std::vector<Operation<T>>;
 
-    Actions _actions;
+    Operations _actions;
     Position _currentPosition;
 };
 
-using IntActionList = ActionList<int>;
+using IntOperationList = OperationList<int>;

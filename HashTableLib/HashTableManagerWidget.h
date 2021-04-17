@@ -2,11 +2,11 @@
 
 #include "HashFunction.h"
 #include "RehashFunction.h"
-#include "ActionResult.h"
+#include "OperationResult.h"
 #include <QWidget>
 
 class HashTableDescriptionWidget;
-class ActionResultWidget;
+class OperationResultWidget;
 class HashTableWidget;
 class HashTableModel;
 class HashTableDefinition;
@@ -22,14 +22,14 @@ public:
     void setModel(HashTableModel *hashTableModel);
 
 public slots:
-    void actionResultCalculatedHandler(IntActionResult actionResult);
+    void actionResultCalculatedHandler(IntOperationResult actionResult);
 
 signals:
-    void actionResultCalculated(IntActionResult actionResult);
+    void actionResultCalculated(IntOperationResult actionResult);
 
 private:
     HashTableDescriptionWidget *_hashTableDescriptionWidget;
-    ActionResultWidget *_actionResultWidget;
+    OperationResultWidget *_actionResultWidget;
     HashTableWidget * _hashTableWidget;
 };
 

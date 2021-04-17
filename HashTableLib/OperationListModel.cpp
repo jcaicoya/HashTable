@@ -1,11 +1,11 @@
-#include "ActionListModel.h"
+#include "OperationListModel.h"
 
 #include <QString>
 #include <QFont>
 #include <QBrush>
 
 
-QVariant ActionListModel::data(const QModelIndex &index, int role) const
+QVariant OperationListModel::data(const QModelIndex &index, int role) const
 {
     int row = index.row();
     int actionListCurrentPosition = static_cast<int>(_currentPosition);
@@ -37,7 +37,7 @@ QVariant ActionListModel::data(const QModelIndex &index, int role) const
 }
 
 
-QVariant ActionListModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant OperationListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole)
     {
@@ -57,7 +57,7 @@ QVariant ActionListModel::headerData(int section, Qt::Orientation orientation, i
 }
 
 
-void ActionListModel::loadActionListHandler(const IntActions &actionList)
+void OperationListModel::loadOperationListHandler(const IntOperations &actionList)
 {
     _actionList.clear();
     _actionList.insert(std::end(_actionList), std::begin(actionList), std::end(actionList));
@@ -67,9 +67,9 @@ void ActionListModel::loadActionListHandler(const IntActions &actionList)
 }
 
 
-void ActionListModel::executeActionHandler(IntAction action)
+void OperationListModel::executeOperationHandler(IntOperation action)
 {
-    if (ActionType::INSERT == action.getType() || ActionType::ERASE == action.getType())
+    if (OperationType::INSERT == action.getType() || OperationType::ERASE == action.getType())
     {
         if (_currentPosition < _actionList.size())
         {
@@ -84,25 +84,25 @@ void ActionListModel::executeActionHandler(IntAction action)
 }
 
 
-void ActionListModel::undoActionHandler()
+void OperationListModel::undoOperationHandler()
 {
     if (_currentPosition > 0)
     {
         _currentPosition--;
         emit layoutChanged();
         emit currentPositionChanged();
-        emit undoAction(_currentPosition);
+        emit undoOperation(_currentPosition);
     }
 }
 
 
-void ActionListModel::redoActionHandler()
+void OperationListModel::redoOperationHandler()
 {
     if (!_actionList.empty() && _currentPosition < _actionList.size())
     {
         _currentPosition++;
         emit layoutChanged();
         emit currentPositionChanged();
-        emit redoAction(_currentPosition);
+        emit redoOperation(_currentPosition);
     }
 }

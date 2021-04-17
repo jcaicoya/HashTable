@@ -1,20 +1,20 @@
 #pragma once
 
 #include <QWidget>
-#include "ActionResult.h"
+#include "OperationResult.h"
 
 class QLabel;
 class QLineEdit;
 
-class ActionResultWidget : public QWidget
+class OperationResultWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ActionResultWidget(QWidget *parent = nullptr);
+    explicit OperationResultWidget(QWidget *parent = nullptr);
 
 public slots:
-    void actionResultCalculatedHandler(IntActionResult actionResult);
+    void actionResultCalculatedHandler(IntOperationResult actionResult);
 
 private:
     QLabel *_actionLabel;

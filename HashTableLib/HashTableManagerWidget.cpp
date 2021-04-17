@@ -1,6 +1,6 @@
 #include "HashTableManagerWidget.h"
 
-#include "ActionResultWidget.h"
+#include "OperationResultWidget.h"
 #include "HashTableWidget.h"
 #include "HashTableModel.h"
 #include "HashTableDescriptionWidget.h"
@@ -15,7 +15,7 @@ HashTableManagerWidget::HashTableManagerWidget(const HashTableDefinition &descri
     , _hashTableWidget(nullptr)
 {
     _hashTableDescriptionWidget = new HashTableDescriptionWidget(description);
-    _actionResultWidget = new ActionResultWidget;
+    _actionResultWidget = new OperationResultWidget;
     _hashTableWidget = new HashTableWidget;
 
     QVBoxLayout *layout = new QVBoxLayout;
@@ -24,7 +24,7 @@ HashTableManagerWidget::HashTableManagerWidget(const HashTableDefinition &descri
     layout->addWidget(_hashTableWidget);
     this->setLayout(layout);
 
-    connect(this, &HashTableManagerWidget::actionResultCalculated, _actionResultWidget, &ActionResultWidget::actionResultCalculatedHandler);
+    connect(this, &HashTableManagerWidget::actionResultCalculated, _actionResultWidget, &OperationResultWidget::actionResultCalculatedHandler);
 }
 
 
@@ -33,7 +33,7 @@ void HashTableManagerWidget::setModel(HashTableModel *hashTableModel)
    _hashTableWidget->setModel(hashTableModel);
 }
 
-void HashTableManagerWidget::actionResultCalculatedHandler(IntActionResult actionResult)
+void HashTableManagerWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
     emit actionResultCalculated(actionResult);
 }

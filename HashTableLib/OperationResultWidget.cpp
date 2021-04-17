@@ -1,4 +1,4 @@
-#include "ActionResultWidget.h"
+#include "OperationResultWidget.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
@@ -6,7 +6,7 @@
 #include <QLineEdit>
 
 
-ActionResultWidget::ActionResultWidget(QWidget *parent)
+OperationResultWidget::OperationResultWidget(QWidget *parent)
     : QWidget(parent)
     , _actionLabel(nullptr)
     , _actionInfo(nullptr)
@@ -47,9 +47,9 @@ ActionResultWidget::ActionResultWidget(QWidget *parent)
 }
 
 
-void ActionResultWidget::actionResultCalculatedHandler(IntActionResult actionResult)
+void OperationResultWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
-    if (ActionType::NONE == actionResult.getAction().getType())
+    if (OperationType::NONE == actionResult.getOperation().getType())
     {
         _actionInfo->clear();
         _resultInfo->clear();
@@ -57,8 +57,8 @@ void ActionResultWidget::actionResultCalculatedHandler(IntActionResult actionRes
         return;
     }
 
-    _actionInfo->setText(actionResult.getAction().toString());
-    _resultInfo->setText(hash_table::toString(actionResult.getResultInfo()._resultType).data());
+    _actionInfo->setText(actionResult.getOperation().toString());
+    _resultInfo->setText(array_hash_table::toString(actionResult.getResultInfo()._resultType).data());
 
     QString steps;
     const auto &positions = actionResult.getResultInfo()._positions;

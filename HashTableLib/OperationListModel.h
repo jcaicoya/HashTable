@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Action.h"
-#include "ActionList.h"
+#include "Operation.h"
+#include "OperationList.h"
 #include <QObject>
 #include <QAbstractTableModel>
 
 
-class ActionListModel : public QAbstractTableModel
+class OperationListModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    ActionListModel(QObject *parent = nullptr)
+    OperationListModel(QObject *parent = nullptr)
       : QAbstractTableModel(parent)
       , _actionList()
       , _currentPosition(0)
@@ -24,20 +24,20 @@ public:
 
     using Position = std::size_t;
     Position getCurrentPosition() const { return _currentPosition; }
-    Position getActionListSize() const { return _actionList.size(); }
+    Position getOperationListSize() const { return _actionList.size(); }
 
 public slots:
-    void loadActionListHandler(const IntActions &actionList);
-    void executeActionHandler(IntAction action);
-    void undoActionHandler();
-    void redoActionHandler();
+    void loadOperationListHandler(const IntOperations &actionList);
+    void executeOperationHandler(IntOperation action);
+    void undoOperationHandler();
+    void redoOperationHandler();
 
 signals:
     void currentPositionChanged();
-    void undoAction(ActionListModel::Position position);
-    void redoAction(ActionListModel::Position position);
+    void undoOperation(OperationListModel::Position position);
+    void redoOperation(OperationListModel::Position position);
 
 private:
-    std::vector<IntAction> _actionList;
+    std::vector<IntOperation> _actionList;
     Position _currentPosition;
 };
