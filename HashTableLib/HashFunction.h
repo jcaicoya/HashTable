@@ -19,6 +19,9 @@ public:
     std::string_view to_string() const;
     std::size_t operator()(int x) const { return _foo(x); }
 
+    static std::string_view to_string(const HashFunction &hashFunction);
+    static std::string_view to_string(Type type);
+
 private:
     const Type _type;
     const HashFoo _foo;

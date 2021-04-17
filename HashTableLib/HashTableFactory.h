@@ -1,16 +1,17 @@
 #pragma once
 
 #include "HashTable.h"
-#include "HashFunction.h"
-#include "RehashFunction.h"
+#include "HashTableDefinition.h"
 
 
 class HashTableFactory
 {
 public:
-    static IntHashTable Build(HashFunction::Type hashType, RehashFunction::Type rehashType, size_t size)
+    static IntHashTable Build(const HashTableDefinition &definition)
     {
-        return IntHashTable(HashFunctionFactory::Build(hashType), RehashFunctionFactory::Build(rehashType), size);
+        return IntHashTable(HashFunctionFactory::Build(definition._hashType),
+                            RehashFunctionFactory::Build(definition._rehashType),
+                            definition._size);
     }
 };
 

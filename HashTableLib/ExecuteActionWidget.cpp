@@ -31,7 +31,7 @@ ExecuteActionWidget::ExecuteActionWidget(QWidget *parent)
     QGroupBox *selectorBox = new QGroupBox;
     selectorBox->setLayout(selectorLayout);
 
-    _executeButton = new QPushButton("&DO");
+    _executeButton = new QPushButton("&EXECUTE");
 
     QVBoxLayout *widgetLayout = new QVBoxLayout;
     widgetLayout->addWidget(selectorBox);

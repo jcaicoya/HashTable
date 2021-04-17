@@ -22,6 +22,9 @@ public:
     std::string_view to_string() const;
     std::size_t operator()(std::size_t iteration) const { return _foo(iteration); }
 
+    static std::string_view to_string(const RehashFunction &rehasFunction);
+    static std::string_view to_string(Type type);
+
 private:
     const Type _type;
     const RehashFoo _foo;

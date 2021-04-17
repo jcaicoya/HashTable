@@ -6,7 +6,6 @@
 #include <QAbstractTableModel>
 
 
-
 HashTableWidget::HashTableWidget(QWidget *parent)
     : QWidget(parent)
     , _tableView(nullptr)

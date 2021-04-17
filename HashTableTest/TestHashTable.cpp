@@ -13,7 +13,7 @@ void TestHashTable::toUpper()
 
 void TestHashTable::hashTableActions()
 {
-    IntHashTable hashTable = HashTableFactory::Build(HashFunction::Type::Identity, RehashFunction::Type::Identity, 5);
+    IntHashTable hashTable = HashTableFactory::Build({HashFunction::Type::Identity, RehashFunction::Type::Identity, 5});
 
     {
     hash_table::ResultInfo<int> resultInfo;

@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include "Action.h"
 #include "ActionResult.h"
-#include <vector>
+#include <QList>
 
 class HashFunction;
 class RehashFunction;
@@ -12,7 +12,7 @@ class ActionListModel;
 class HashTableManagerWidget;
 class HashTableModel;
 class MainModel;
-
+class HashTableDefinition;
 
 
 class MainWindow : public QMainWindow
@@ -26,27 +26,33 @@ public:
 signals:
     void loadActionList(const std::vector<IntAction> &actionList);
 
-private slots:
-    void loadSizeConfiguration();
-    void loadHashConfiguration();
-    void loadRehashConfiguration();
-    void loadSizeOperationList();
-    void loadHashOperationList();
-    void loadRehashOperationList();
-    void pushHashTable();
-    void popHashTable();
-
 private:
     void createActions();
-    void addHashTable(HashFunction::Type hashFooType, RehashFunction::Type rehashFooType, std::size_t tableSize);
-    void removeHashTable();
+    void addHashTable(const HashTableDefinition &definition);
+    void removeHashTable(size_t tableIndex);
+    void popHashTable();
     void clearHashTables();
 
-    using HashTableWidgetList = std::vector<HashTableManagerWidget *>;
-    using HashTableModelList = std::vector<HashTableModel *>;
+    using HashTableWidgetList = QList<HashTableManagerWidget *>;
+    using HashTableModelList = QList<HashTableModel *>;
 
     ActionManagerWidget *_actionManagerWidget;
     ActionListModel *_actionListModel;
     HashTableWidgetList _hashTableManagerWidgetList;
     HashTableModelList _hashTableModelList;
+
+public slots:
+    void removeHashTableHandler(size_t tableIndex);
+
+private slots:
+    void loadSizeConfigurationActionSlot();
+    void loadHashConfigurationActionSlot();
+    void loadRehashConfigurationActionSlot();
+    void loadSizeOperationListActionSlot();
+    void loadHashOperationListActionSlot();
+    void loadRehashOperationListActionSlot();
+    void addHashTableActionSlot();
+    void removeHashTableActionSlot();
+    void popHashTableActionSlot();
+    void clearHashTablesActionSlot();
 };

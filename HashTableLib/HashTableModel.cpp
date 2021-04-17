@@ -3,10 +3,16 @@
 #include <QString>
 #include <QFont>
 #include <QBrush>
+#include <QDebug>
+#include <thread>
 
 
 QVariant HashTableModel::data(const QModelIndex &index, int role) const
 {
+if (_markPosition != NotInTable)
+{
+    qDebug() << "Yupieeee!!!";
+}
     int row = index.row();
     int col = index.column();
     const int &value = _hashTable.getBucketValue(row);
@@ -42,6 +48,11 @@ QVariant HashTableModel::data(const QModelIndex &index, int role) const
         break;
 
     case Qt::BackgroundRole:
+        if (static_cast<Position>(row) == _markPosition)
+        {
+            return QBrush(Qt::yellow);
+        }
+
         switch (state)
         {
         case BucketState::EMPTY:
@@ -49,18 +60,12 @@ QVariant HashTableModel::data(const QModelIndex &index, int role) const
         case BucketState::ACTIVE:
             return QBrush(Qt::green);
         case BucketState::DELETED:
-            return QBrush(Qt::yellow);
+            return QBrush(Qt::blue);
         }
         break;
 
     case Qt::TextAlignmentRole:
         return static_cast<int>(Qt::AlignHCenter | Qt::AlignVCenter);
-    /*
-    case Qt::CheckStateRole:
-        if (row == 1 && col == 0) //add a checkbox to cell(1,0)
-            return Qt::Checked;
-        break;
-    */
     }
 
     return QVariant();
@@ -134,6 +139,8 @@ void HashTableModel::loadActionListHandler(const IntActions &actionList)
 
 void HashTableModel::executeActionHandler(IntAction action)
 {
+    static int counter = 1;
+    qDebug() << "exectueActionHandler call: " << counter++;
     using Position = hash_table::Position;
     std::optional<Position> result;
     hash_table::IntResultInfo resultInfo;
@@ -153,6 +160,23 @@ void HashTableModel::executeActionHandler(IntAction action)
            return;
     }
 
+    for (auto position : resultInfo._positions)
+    {
+        int innerCounter = 1;
+        _markPosition = position;
+ qDebug() << "inner counter: " << innerCounter << " - " << _markPosition;
+         /*QModelIndex topLeftIndex = createIndex(_markPosition, 0);
+        QModelIndex bottonRightIndex = createIndex(_markPosition + 1, 1);
+        emit dataChanged(topLeftIndex, bottonRightIndex, {Qt::BackgroundRole});
+        */
+        emit layoutChanged();
+        //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+
+    _markPosition = NotInTable;
+    emit layoutChanged();
+
+
     IntActionResult actionResult(std::move(action), std::move(resultInfo));
 
     if (ActionType::INSERT == action.getType() ||
@@ -166,12 +190,6 @@ void HashTableModel::executeActionHandler(IntAction action)
         _currentPosition++;
     }
 
-
-    // TODO: show changes
-    /*
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    */
-    emit layoutChanged();
     emit actionResultCalculated(actionResult);
 }
 

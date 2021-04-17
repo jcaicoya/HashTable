@@ -2,11 +2,23 @@
 
 std::string_view HashFunction::to_string() const
 {
+   return to_string(_type);
+}
+
+
+std::string_view HashFunction::to_string(const HashFunction &hashFunction)
+{
+    return to_string(hashFunction._type);
+}
+
+
+std::string_view HashFunction::to_string(Type type)
+{
     static std::string_view Identity = "Identity";
     static std::string_view Square = "Square";
     static std::string_view Cube = "Cube";
 
-    switch (_type)
+    switch (type)
     {
         case Type::Identity:
             return Identity;

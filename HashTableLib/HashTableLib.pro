@@ -18,14 +18,16 @@ SOURCES += \
     ActionManagerWidget.cpp \
     ActionResult.cpp \
     ActionResultWidget.cpp \
+    AddHashTableDialog.cpp \
     ExecuteActionWidget.cpp \
     HashFunction.cpp \
-    HashTableFactory.cpp \
+    HashTableDescriptionWidget.cpp \
     HashTableManagerWidget.cpp \
     HashTableModel.cpp \
     HashTableWidget.cpp \
     MainWindow.cpp \
-    RehashFunction.cpp
+    RehashFunction.cpp \
+    RemoveHashTableDialog.cpp
 
 HEADERS += \
     Action.h \
@@ -35,16 +37,19 @@ HEADERS += \
     ActionManagerWidget.h \
     ActionResult.h \
     ActionResultWidget.h \
+    AddHashTableDialog.h \
     Constants.h \
     ExecuteActionWidget.h \
     HashFunction.h \
     HashTable.h \
-    HashTableFactory.h \
+    HashTableDefinition.h \
+    HashTableDescriptionWidget.h \
     HashTableManagerWidget.h \
     HashTableModel.h \
     HashTableWidget.h \
     MainWindow.h \
-    RehashFunction.h
+    RehashFunction.h \
+    RemoveHashTableDialog.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/lib
