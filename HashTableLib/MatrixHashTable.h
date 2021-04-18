@@ -5,6 +5,8 @@
 #include <vector>
 #include <iterator>
 
+#include <QDebug>
+
 
 template <typename T>
 class MatrixHashTable : public HashTable<T>
@@ -34,6 +36,7 @@ public:
     void setValue(std::size_t row, std::size_t col, const T &value) override { _data[row][col] = value; }
     hash_table::BucketState getState(std::size_t /*row*/, std::size_t /*col*/) const override { return hash_table::BucketState::EMPTY; }
     void setState(std::size_t /*row*/, std::size_t /*col*/, hash_table::BucketState /*state*/) override { return; }
+    void setColumn(std::size_t row, const hash_table::Column<T> &column) override { _data[row] = column; updateBucketMaxSize(); }
 
     inline void clear() override;
 
@@ -79,19 +82,27 @@ template <typename T>
 inline std::optional<hash_table::Position> MatrixHashTable<T>::insertImpl(const T &value, hash_table::ResultInfo<T> *resultInfo)
 {
     const size_t hashPosition = _hashFunction(value) % _data.size();
-    _data[hashPosition].push_back(value);
-    const size_t bucketPosition = _data[hashPosition].size() - 1;
-
     const bool calculateResultInfo = (nullptr != resultInfo);
+
     if (calculateResultInfo)
     {
+        resultInfo->_row = hashPosition;
+        resultInfo->_prevColumn = _data[hashPosition];
+    }
+
+    _data[hashPosition].push_back(value);
+
+
+    if (calculateResultInfo)
+    {
+        const size_t bucketPosition = _data[hashPosition].size() - 1;
         resultInfo->_resultType = hash_table::ResultType::DONE;
         resultInfo->_positions.push_back(hashPosition);
         resultInfo->_positions.push_back(bucketPosition);
+        resultInfo->_currentColumn = _data[hashPosition];
     }
 
     updateBucketMaxSize();
-
     return hashPosition;
 }
 
@@ -99,35 +110,26 @@ inline std::optional<hash_table::Position> MatrixHashTable<T>::insertImpl(const 
 template <typename T>
 inline std::optional<hash_table::Position> MatrixHashTable<T>::eraseImpl(const T &value, hash_table::ResultInfo<T> *resultInfo)
 {
-    std::optional<Position> hashPosition;
-    std::optional<Position> bucketPosition;
+    const bool calculateResultInfo = (nullptr != resultInfo);
+    hash_table::ResultInfo<T> eraseResultInfo;
 
-    if (nullptr != resultInfo)
-    {
-        hashPosition = findImpl(value, resultInfo);
-        if (hashPosition.has_value())
-        {
-            bucketPosition = resultInfo->_positions.back();
-        }
-    }
-    else
-    {
-        hash_table::ResultInfo<T> localResultInfo;
-        hashPosition = findImpl(value, &localResultInfo);
-        if (hashPosition.has_value())
-        {
-            bucketPosition = resultInfo->_positions.back();
-        }
-    }
+    std::optional<Position> hashPosition = findImpl(value, &eraseResultInfo);
 
-    if (hashPosition.has_value() && bucketPosition.has_value())
+    if (hash_table::ResultType::DONE == eraseResultInfo._resultType)
     {
-        _data[hashPosition.value()].erase(_data[hashPosition.value()].begin() + bucketPosition.value());
+        eraseResultInfo._prevColumn = _data[hashPosition.value()];
+        size_t columnPosition = eraseResultInfo._positions.back();
+        _data[hashPosition.value()].erase(_data[hashPosition.value()].begin() + columnPosition);
+        eraseResultInfo._currentColumn = _data[hashPosition.value()];
         updateBucketMaxSize();
-        return hashPosition;
     }
 
-    return std::optional<Position>();
+    if (calculateResultInfo)
+    {
+        *resultInfo = eraseResultInfo;
+    }
+
+    return hashPosition;
 }
 
 
@@ -135,28 +137,44 @@ template <typename T>
 inline std::optional<hash_table::Position> MatrixHashTable<T>::findImpl(const T &value, hash_table::ResultInfo<T> *resultInfo) const
 {
     const size_t hashPosition = _hashFunction(value) % _data.size();
-    const std::vector<T> &cols = _data[hashPosition];
-    auto itr = std::find(cols.begin(), cols.end(), value);
-    if (cols.cend() == itr)
+    resultInfo->_row = hashPosition;
+    resultInfo->_positions.push_back(hashPosition);
+
+    const std::vector<T> &column = _data[hashPosition];
+    auto itr = std::find(column.begin(), column.end(), value);
+    bool found = (column.cend() != itr);
+
+    size_t searchedPosition = 0;
+    if (found)
     {
-        return std::optional<Position>();
+        searchedPosition = std::distance(itr, column.begin());
     }
-
-    const size_t bucketPosition = std::distance(itr, cols.begin());
-
-
-    const bool calculateResultInfo = (nullptr != resultInfo);
-    if (calculateResultInfo)
+    else
     {
-        resultInfo->_resultType = hash_table::ResultType::DONE;
-        resultInfo->_positions.push_back(hashPosition);
-        for (size_t position = 0; position <= bucketPosition; position++)
+        if (!column.empty())
         {
-            resultInfo->_positions.push_back(bucketPosition);
+            searchedPosition = column.size() - 1;
         }
     }
 
-    return hashPosition;
+    if (found || !column.empty())
+    {
+        for (size_t position = 0; position <= searchedPosition; position++)
+        {
+            resultInfo->_positions.push_back(position);
+        }
+    }
+
+    if (found)
+    {
+        resultInfo->_resultType = hash_table::ResultType::DONE;
+        return hashPosition;
+    }
+    else
+    {
+        resultInfo->_resultType = hash_table::ResultType::NOT_DONE;
+        return std::optional<hash_table::Position>();
+    }
 }
 
 
@@ -172,4 +190,7 @@ void MatrixHashTable<T>::updateBucketMaxSize()
             _bucketMaxSize = buckets.size();
         }
     }
+
+
+    qDebug() << "_bucketMaxSize: " << QString::number(_bucketMaxSize);
 }

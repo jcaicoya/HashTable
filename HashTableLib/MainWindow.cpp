@@ -39,11 +39,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_actionManagerWidget, &OperationManagerWidget::executeOperation, _actionListModel, &OperationListModel::executeOperationHandler);
     connect(_actionManagerWidget, &OperationManagerWidget::undoOperation, _actionListModel, &OperationListModel::undoOperationHandler);
     connect(_actionManagerWidget, &OperationManagerWidget::redoOperation, _actionListModel, &OperationListModel::redoOperationHandler);
+
+    example1ActionSlot();
 }
 
 
 void MainWindow::createOperations()
 {
+    QMenu *examplesMenu = menuBar()->addMenu("&Examples");
+    QToolBar *examplesToolBar = addToolBar("Examples");
+
+    QAction *example1Action = new QAction(tr("&1: Matrix/Array"), this);
+    example1Action->setStatusTip(tr("Matrix and array hash tables"));
+    connect(example1Action, &QAction::triggered, this, &MainWindow::example1ActionSlot);
+    examplesMenu->addAction(example1Action);
+    examplesToolBar->addAction(example1Action);
+
+    /*
     QMenu *configurationMenu = menuBar()->addMenu(tr("&Configurations"));
     QToolBar *configurationToolBar = addToolBar(tr("Configurations"));
 
@@ -114,6 +126,7 @@ void MainWindow::createOperations()
     connect(clearHashTableOperation, &QAction::triggered, this, &MainWindow::clearHashTablesOperationSlot);
     hashTableMenu->addAction(clearHashTableOperation);
     HashTableToolBar->addAction(clearHashTableOperation);
+    */
 }
 
 
@@ -177,6 +190,28 @@ void MainWindow::removeHashTableHandler(size_t tableIndex)
 }
 
 
+void MainWindow::example1ActionSlot()
+{
+    clearHashTables();
+    addHashTable({hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 4});
+    addHashTable({hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11});
+
+    std::vector<IntOperation> actionList
+    {
+        { OperationType::INSERT, 3 },
+        { OperationType::ERASE, 3 },
+        { OperationType::INSERT, 13 },
+        { OperationType::INSERT, 23 },
+        { OperationType::INSERT, 33 },
+        { OperationType::INSERT, 43 },
+        { OperationType::INSERT, 53 }
+    };
+
+    emit loadOperationList(actionList);
+}
+
+
+/*
 void MainWindow::clearHashTablesOperationSlot()
 {
     while (!_hashTableManagerWidgetList.empty())
@@ -283,4 +318,4 @@ void MainWindow::removeHashTableOperationSlot()
     connect(removeHashTableDialog, &RemoveHashTableDialog::removeHashTable, this, &MainWindow::removeHashTableHandler);
     removeHashTableDialog->exec();
 }
-
+*/

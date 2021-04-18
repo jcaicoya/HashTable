@@ -26,7 +26,7 @@ QVariant OperationListModel::data(const QModelIndex &index, int role) const
     case Qt::BackgroundRole:
         if (row == actionListCurrentPosition - 1)
         {
-            return QBrush(Qt::red);
+            return QBrush(Qt::yellow);
         }
         break;
     case Qt::TextAlignmentRole:

@@ -68,6 +68,9 @@ struct Bucket
 template <typename T>
 using Buckets = std::vector<Bucket<T>>;
 
+template <typename T>
+using Column = std::vector<T>;
+
 
 enum class ResultType { DONE, NOT_DONE, OVERFLOWN, NONE };
 
@@ -100,6 +103,9 @@ struct ResultInfo
         , _positions()
         , _prevBucket()
         , _currentBucket()
+        , _row()
+        , _prevColumn()
+        , _currentColumn()
     {}
 
 
@@ -107,7 +113,11 @@ struct ResultInfo
     Positions _positions;
     std::optional<Bucket<T>> _prevBucket;
     std::optional<Bucket<T>> _currentBucket;
+    Position _row;
+    std::optional<Column<T>> _prevColumn;
+    std::optional<Column<T>> _currentColumn;
 };
+
 
 using IntResultInfo = ResultInfo<int>;
 
@@ -129,6 +139,7 @@ public:
     virtual void setValue(std::size_t row, size_t col, const T &value) = 0;
     virtual hash_table::BucketState getState(std::size_t row, std::size_t col) const = 0;
     virtual void setState(std::size_t row, std::size_t col, hash_table::BucketState bucketState) = 0;
+    virtual void setColumn(std::size_t row, const hash_table::Column<T> &column) = 0;
 
     virtual void clear() = 0;
 

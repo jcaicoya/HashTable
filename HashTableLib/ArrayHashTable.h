@@ -36,6 +36,7 @@ public:
     void setValue(std::size_t row, std::size_t /*col*/, const T &value) override { _buckets[row]._value = value; }
     BucketState getState(std::size_t row,std:: size_t /*col*/) const override { return _buckets[row]._state; }
     void setState(std::size_t row, std::size_t /*col*/, BucketState state) override { _buckets[row]._state = state; }
+    void setColumn(std::size_t /*row*/, const hash_table::Column<T> &/*column*/) override { return; }
 
     inline void clear() override;
 

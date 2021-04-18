@@ -16,6 +16,8 @@ QVariant HashTableModel::data(const QModelIndex &index, int role) const
         case hash_table::Type::MATRIX:
             return dataForMatrixType(index, role);
     }
+
+    return QVariant();
 }
 
 
@@ -28,6 +30,8 @@ QVariant HashTableModel::headerData(int section, Qt::Orientation orientation, in
         case hash_table::Type::MATRIX:
             return headerDataForMatrixType(section, orientation, role);
     }
+
+    return QVariant();
 }
 
 
@@ -90,6 +94,7 @@ void HashTableModel::executeOperationHandler(IntOperation action)
            return;
     }
 
+    /* TODO
     for (auto position : resultInfo._positions)
     {
         _markPosition = position;
@@ -98,6 +103,7 @@ void HashTableModel::executeOperationHandler(IntOperation action)
     }
 
     _markPosition = NotInTable;
+    */
     emit layoutChanged();
 
 
@@ -127,14 +133,22 @@ void HashTableModel::undoOperationHandler()
         auto resultType = actionResult.getResultInfo()._resultType;
         if (hash_table::ResultType::DONE == resultType)
         {
-            const auto &positions = actionResult.getResultInfo()._positions;
-            const auto &prevBucket = actionResult.getResultInfo()._prevBucket;
-            auto bucketPostion = positions.back();
-            _hashTable->setValue(bucketPostion, 0, prevBucket.value()._value);
-            _hashTable->setState(bucketPostion, 1, prevBucket.value()._state);
-            emit layoutChanged();
+            if (hash_table::Type::ARRAY == _hashTable->getType())
+            {
+                const auto &positions = actionResult.getResultInfo()._positions;
+                const auto &prevBucket = actionResult.getResultInfo()._prevBucket;
+                auto bucketPostion = positions.back();
+                _hashTable->setValue(bucketPostion, 0, prevBucket.value()._value);
+                _hashTable->setState(bucketPostion, 1, prevBucket.value()._state);
+            }
+            else
+            {
+                _hashTable->setColumn(actionResult.getResultInfo()._row, actionResult.getResultInfo()._prevColumn.value());
+            }
+
         }
 
+        emit layoutChanged();
         emit actionResultCalculated(_actionResults[_currentPosition - 1]);
     }
 }
@@ -148,14 +162,21 @@ void HashTableModel::redoOperationHandler()
         auto resultType = actionResult.getResultInfo()._resultType;
         if (hash_table::ResultType::DONE == resultType)
         {
-            const auto &positions = actionResult.getResultInfo()._positions;
-            const auto &prevBucket = actionResult.getResultInfo()._currentBucket;
-            auto bucketPostion = positions.back();
-            _hashTable->setValue(bucketPostion, 0, prevBucket.value()._value);
-            _hashTable->setState(bucketPostion, 1, prevBucket.value()._state);
-            emit layoutChanged();
+            if (hash_table::Type::ARRAY == _hashTable->getType())
+            {
+                const auto &positions = actionResult.getResultInfo()._positions;
+                const auto &currentBucket = actionResult.getResultInfo()._currentBucket;
+                auto bucketPostion = positions.back();
+                _hashTable->setValue(bucketPostion, 0, currentBucket.value()._value);
+                _hashTable->setState(bucketPostion, 1, currentBucket.value()._state);
+            }
+            else
+            {
+                _hashTable->setColumn(actionResult.getResultInfo()._row, actionResult.getResultInfo()._currentColumn.value());
+            }
         }
 
+        emit layoutChanged();
         emit actionResultCalculated(actionResult);
     }
 }
@@ -198,10 +219,13 @@ QVariant HashTableModel::dataForArrayType(const QModelIndex &index, int role) co
         break;
 
     case Qt::BackgroundRole:
+        /*
+         * TODO
         if (static_cast<Position>(row) == _markPosition)
         {
             return QBrush(Qt::yellow);
         }
+        */
 
         switch (state)
         {
@@ -210,7 +234,7 @@ QVariant HashTableModel::dataForArrayType(const QModelIndex &index, int role) co
         case BucketState::ACTIVE:
             return QBrush(Qt::green);
         case BucketState::DELETED:
-            return QBrush(Qt::blue);
+            return QBrush(Qt::lightGray);
         }
         break;
 
@@ -222,7 +246,6 @@ QVariant HashTableModel::dataForArrayType(const QModelIndex &index, int role) co
 }
 
 
-
 QVariant HashTableModel::dataForMatrixType(const QModelIndex &index, int role) const
 {
     static QFont boldFont;
@@ -230,7 +253,12 @@ QVariant HashTableModel::dataForMatrixType(const QModelIndex &index, int role) c
 
     int row = index.row();
     int col = index.column();
-    const int &value = _hashTable->getValue(row, col);
+    if (col >= static_cast<int>(_hashTable->getNumberOfCols(row)))
+    {
+        return QVariant();
+    }
+
+    int value = _hashTable->getValue(row, col);
 
     switch (role) {
 

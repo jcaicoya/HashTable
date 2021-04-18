@@ -45,6 +45,8 @@ public slots:
     void removeHashTableHandler(size_t tableIndex);
 
 private slots:
+    void example1ActionSlot();
+    /*
     void loadSizeConfigurationOperationSlot();
     void loadHashConfigurationOperationSlot();
     void loadRehashConfigurationOperationSlot();
@@ -55,4 +57,5 @@ private slots:
     void removeHashTableOperationSlot();
     void popHashTableOperationSlot();
     void clearHashTablesOperationSlot();
+    */
 };
