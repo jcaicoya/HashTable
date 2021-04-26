@@ -1,4 +1,19 @@
 #include "MainWindow.h"
+
+#ifdef NEW_MAIN_WINDOW
+
+#include "ExampleTabWidget.h"
+
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+{
+    setCentralWidget(new ExampleTabWidget);
+    showMaximized();
+}
+
+#else
+
 #include "OperationManagerWidget.h"
 #include "OperationListModel.h"
 #include "HashTableManagerWidget.h"
@@ -55,7 +70,6 @@ void MainWindow::createOperations()
     examplesMenu->addAction(example1Action);
     examplesToolBar->addAction(example1Action);
 
-    /*
     QMenu *configurationMenu = menuBar()->addMenu(tr("&Configurations"));
     QToolBar *configurationToolBar = addToolBar(tr("Configurations"));
 
@@ -126,7 +140,6 @@ void MainWindow::createOperations()
     connect(clearHashTableOperation, &QAction::triggered, this, &MainWindow::clearHashTablesOperationSlot);
     hashTableMenu->addAction(clearHashTableOperation);
     HashTableToolBar->addAction(clearHashTableOperation);
-    */
 }
 
 
@@ -211,7 +224,6 @@ void MainWindow::example1ActionSlot()
 }
 
 
-/*
 void MainWindow::clearHashTablesOperationSlot()
 {
     while (!_hashTableManagerWidgetList.empty())
@@ -318,4 +330,5 @@ void MainWindow::removeHashTableOperationSlot()
     connect(removeHashTableDialog, &RemoveHashTableDialog::removeHashTable, this, &MainWindow::removeHashTableHandler);
     removeHashTableDialog->exec();
 }
-*/
+
+#endif

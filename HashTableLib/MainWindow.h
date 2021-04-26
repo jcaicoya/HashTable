@@ -1,6 +1,24 @@
 #pragma once
 
 #include <QMainWindow>
+
+#define NEW_MAIN_WINDOW
+
+#ifdef NEW_MAIN_WINDOW
+
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() = default;
+};
+
+
+#else
+
 #include "Operation.h"
 #include "OperationResult.h"
 #include <QList>
@@ -46,7 +64,6 @@ public slots:
 
 private slots:
     void example1ActionSlot();
-    /*
     void loadSizeConfigurationOperationSlot();
     void loadHashConfigurationOperationSlot();
     void loadRehashConfigurationOperationSlot();
@@ -57,5 +74,6 @@ private slots:
     void removeHashTableOperationSlot();
     void popHashTableOperationSlot();
     void clearHashTablesOperationSlot();
-    */
 };
+
+#endif

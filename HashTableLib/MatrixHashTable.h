@@ -190,7 +190,4 @@ void MatrixHashTable<T>::updateBucketMaxSize()
             _bucketMaxSize = buckets.size();
         }
     }
-
-
-    qDebug() << "_bucketMaxSize: " << QString::number(_bucketMaxSize);
 }

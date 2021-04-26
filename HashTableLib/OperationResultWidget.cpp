@@ -1,9 +1,11 @@
 #include "OperationResultWidget.h"
+
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QDebug>
 
 
 OperationResultWidget::OperationResultWidget(QWidget *parent)
@@ -49,6 +51,8 @@ OperationResultWidget::OperationResultWidget(QWidget *parent)
 
 void OperationResultWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
+    qDebug() << "receiving: OperationResultWidget::actionResultCalculatedHandler";
+
     if (OperationType::NONE == actionResult.getOperation().getType())
     {
         _actionInfo->clear();

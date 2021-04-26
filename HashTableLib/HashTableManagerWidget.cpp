@@ -6,6 +6,7 @@
 #include "HashTableDescriptionWidget.h"
 #include "HashTableDefinition.h"
 #include <QVBoxLayout>
+#include <QDebug>
 
 
 HashTableManagerWidget::HashTableManagerWidget(const HashTableDefinition &description, QWidget *parent)
@@ -35,5 +36,6 @@ void HashTableManagerWidget::setModel(HashTableModel *hashTableModel)
 
 void HashTableManagerWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
+    qDebug() << "receiving HashTableManagerWidget::actionResultCalculatedHandler";
     emit actionResultCalculated(actionResult);
 }

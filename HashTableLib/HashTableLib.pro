@@ -12,6 +12,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ExampleTabWidget.cpp \
+    ExampleWidget.cpp \
     OperationList.cpp \
     OperationListModel.cpp \
     OperationListWidget.cpp \
@@ -30,6 +32,8 @@ SOURCES += \
     RemoveHashTableDialog.cpp
 
 HEADERS += \
+    ExampleTabWidget.h \
+    ExampleWidget.h \
     HashTable.h \
     MatrixHashTable.h \
     Operation.h \
