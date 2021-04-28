@@ -51,8 +51,6 @@ OperationResultWidget::OperationResultWidget(QWidget *parent)
 
 void OperationResultWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
-    qDebug() << "receiving: OperationResultWidget::actionResultCalculatedHandler";
-
     if (OperationType::NONE == actionResult.getOperation().getType())
     {
         _actionInfo->clear();

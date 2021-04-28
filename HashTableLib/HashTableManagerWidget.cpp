@@ -36,6 +36,5 @@ void HashTableManagerWidget::setModel(HashTableModel *hashTableModel)
 
 void HashTableManagerWidget::actionResultCalculatedHandler(IntOperationResult actionResult)
 {
-    qDebug() << "receiving HashTableManagerWidget::actionResultCalculatedHandler";
     emit actionResultCalculated(actionResult);
 }

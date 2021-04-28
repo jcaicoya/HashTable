@@ -37,7 +37,6 @@ QVariant HashTableModel::headerData(int section, Qt::Orientation orientation, in
 
 void HashTableModel::loadOperationListHandler(const IntOperations &actionList)
 {
-    qDebug() << "receiving loadOperationListHandler " << actionList.size();
     _hashTable->clear();
     _actionResults.resize(1);
     _currentPosition = 1;
@@ -69,8 +68,6 @@ void HashTableModel::loadOperationListHandler(const IntOperations &actionList)
     }
 
     _hashTable->clear();
-    qDebug() << "emit layoutChanged";
-    qDebug() << "emit actionResultCalculated";
     emit layoutChanged();
     emit actionResultCalculated(_actionResults.front());
 }

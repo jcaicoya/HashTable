@@ -18,7 +18,8 @@ public:
                                                            RehashFunctionFactory::Build(definition._rehashFunctionType),
                                                            definition._size);
 
-        case hash_table::Type::MATRIX:
+         default:
+        //case hash_table::Type::MATRIX:
             return std::make_unique<IntMatrixHashTable>(HashFunctionFactory::Build(definition._hashFunctionType),
                                                         definition._size);
         }

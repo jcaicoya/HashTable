@@ -15,17 +15,19 @@ ExecuteOperationWidget::ExecuteOperationWidget(QWidget *parent)
     , _valueEdit(nullptr)
     , _executeButton(nullptr)
 {
+    _findButton = new QRadioButton(tr("&FIND"));
     _insertButton = new QRadioButton(tr("&INSERT"));
     _eraseButton = new QRadioButton(tr("E&RASE"));
-    _findButton = new QRadioButton(tr("&FIND"));
-    _insertButton->setChecked(true);
+
+    _findButton->setChecked(true);
 
     _valueEdit = new QLineEdit;
+    _valueEdit->setFocus();
 
     QGridLayout *selectorLayout = new QGridLayout;
     selectorLayout->addWidget(_insertButton, 0, 0);
-    selectorLayout->addWidget(_eraseButton, 1, 0);
-    selectorLayout->addWidget(_findButton, 2, 0);
+    selectorLayout->addWidget(_findButton, 1, 0);
+    selectorLayout->addWidget(_eraseButton, 2, 0);
     selectorLayout->addWidget(_valueEdit, 1, 1);
 
     QGroupBox *selectorBox = new QGroupBox;

@@ -147,7 +147,7 @@ inline std::optional<hash_table::Position> MatrixHashTable<T>::findImpl(const T 
     size_t searchedPosition = 0;
     if (found)
     {
-        searchedPosition = std::distance(itr, column.begin());
+        searchedPosition = std::distance(column.begin(), itr);
     }
     else
     {
