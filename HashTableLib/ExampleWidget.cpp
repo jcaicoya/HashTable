@@ -42,7 +42,6 @@ ExampleWidget::ExampleWidget(std::vector<HashTableDefinition> &&definitions,  QW
 
 void ExampleWidget::loadOperations(std::vector<IntOperation> &&operationList)
 {
-    qDebug() << "emit: ExampleWidget::loadOperationList()" << operationList.size();
     emit loadOperationList(operationList);
 }
 

@@ -3,11 +3,16 @@
 #include "ExampleWidget.h"
 #include "HashTableDefinition.h"
 #include "Operation.h"
+#include "BeginWidget.h"
+#include "EndWidget.h"
 
 
 PresentationTabWidget::PresentationTabWidget(QWidget *parent)
     : QTabWidget(parent)
 {
+    BeginWidget *beginWidget = new BeginWidget("HASH TABLES");
+    addTab(beginWidget, "Begin");
+
     setupExample("Matrix",
                  {
                      {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Next, 10},
@@ -110,6 +115,9 @@ PresentationTabWidget::PresentationTabWidget(QWidget *parent)
                      { OperationType::INSERT, 1 },
                      { OperationType::INSERT, 78 }
                  });
+
+    EndWidget *endWidget = new EndWidget;
+    addTab(endWidget, "End");
 }
 
 

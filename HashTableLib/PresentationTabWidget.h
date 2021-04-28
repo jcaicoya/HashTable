@@ -17,6 +17,3 @@ public:
 private:
     void setupExample(QString &&title, std::vector<HashTableDefinition> &&definitions, std::vector<IntOperation> &&actionList);
 };
-
-
-
