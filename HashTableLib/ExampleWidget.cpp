@@ -1,6 +1,6 @@
 #include "ExampleWidget.h"
 
-#include "ExampleTabWidget.h"
+#include "PresentationTabWidget.h"
 
 #include "OperationManagerWidget.h"
 #include "OperationListModel.h"

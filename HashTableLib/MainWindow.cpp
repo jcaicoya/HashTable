@@ -2,13 +2,13 @@
 
 #ifdef NEW_MAIN_WINDOW
 
-#include "ExampleTabWidget.h"
+#include "PresentationTabWidget.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setCentralWidget(new ExampleTabWidget);
+    setCentralWidget(new PresentationTabWidget);
     showMaximized();
 }
 

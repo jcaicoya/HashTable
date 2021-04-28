@@ -1,11 +1,11 @@
-#include "ExampleTabWidget.h"
+#include "PresentationTabWidget.h"
 
 #include "ExampleWidget.h"
 #include "HashTableDefinition.h"
 #include "Operation.h"
 
 
-ExampleTabWidget::ExampleTabWidget(QWidget *parent)
+PresentationTabWidget::PresentationTabWidget(QWidget *parent)
     : QTabWidget(parent)
 {
     setupExample("Matrix",
@@ -113,7 +113,7 @@ ExampleTabWidget::ExampleTabWidget(QWidget *parent)
 }
 
 
-void ExampleTabWidget::setupExample(QString &&title, std::vector<HashTableDefinition> &&definitions, std::vector<IntOperation> &&actionList)
+void PresentationTabWidget::setupExample(QString &&title, std::vector<HashTableDefinition> &&definitions, std::vector<IntOperation> &&actionList)
 {
     ExampleWidget *exampleWidget = new ExampleWidget(std::move(definitions));
     exampleWidget->loadOperations(std::move(actionList));

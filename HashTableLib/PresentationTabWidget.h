@@ -8,11 +8,11 @@
 class HashTableDefinition;
 
 
-class ExampleTabWidget : public QTabWidget
+class PresentationTabWidget : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit ExampleTabWidget(QWidget *parent = nullptr);
+    explicit PresentationTabWidget(QWidget *parent = nullptr);
 
 private:
     void setupExample(QString &&title, std::vector<HashTableDefinition> &&definitions, std::vector<IntOperation> &&actionList);
