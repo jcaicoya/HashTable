@@ -9,7 +9,7 @@
 class RehashFunction
 {
 public:
-    enum class Type { Identity, Square, Cube };
+    enum class Type { Next, Square, Cube };
     using RehashFoo = std::function<std::size_t (std::size_t)>;
 
     RehashFunction(Type type, RehashFoo foo)

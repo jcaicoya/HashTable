@@ -10,8 +10,8 @@ ExampleTabWidget::ExampleTabWidget(QWidget *parent)
 {
     setupExample("Example 1",
                  {
-                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 4},
-                     {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11}
+                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Next, 4},
+                     {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Next, 11}
                  },
                  {
                      { OperationType::INSERT, 3 },
@@ -24,8 +24,8 @@ ExampleTabWidget::ExampleTabWidget(QWidget *parent)
 
     setupExample("Example 2",
                  {
-                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Identity, 4},
-                     {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Identity, 11}
+                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Next, 4},
+                     {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Next, 11}
                  },
                  {
                      { OperationType::INSERT, 3 },

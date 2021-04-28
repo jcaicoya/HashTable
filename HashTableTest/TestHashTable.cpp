@@ -12,7 +12,7 @@ void TestHashTable::toUpper()
 
 void TestHashTable::hashTableOperations()
 {
-    auto hashTable = HashTableFactory::Build({hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Identity, 5});
+    auto hashTable = HashTableFactory::Build({hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Next, 5});
 
     {
     hash_table::ResultInfo<int> resultInfo;

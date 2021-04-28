@@ -145,11 +145,11 @@ void AddHashTableDialog::verify()
         }
     }
 
-    RehashFunction::Type rehashType = RehashFunction::Type::Identity;
+    RehashFunction::Type rehashType = RehashFunction::Type::Next;
     switch (position)
     {
     case 0:
-        rehashType = RehashFunction::Type::Identity;
+        rehashType = RehashFunction::Type::Next;
         break;
     case 1:
         rehashType = RehashFunction::Type::Square;
@@ -158,7 +158,7 @@ void AddHashTableDialog::verify()
         rehashType = RehashFunction::Type::Cube;
         break;
     default:
-        rehashType = RehashFunction::Type::Identity;
+        rehashType = RehashFunction::Type::Next;
     }
 
     size_t size = static_cast<size_t>(_sizeLineEdit->text().toInt());
