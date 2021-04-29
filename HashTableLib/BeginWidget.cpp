@@ -33,8 +33,9 @@ BeginWidget::BeginWidget(const QString &initalText, QWidget *parent)
 
     setLayout(mainLayout);
 
-    addText("SECOND MESSAGE");
-    addText("OTHER MESSAGES\nMESSAGE A\nMESSAGE B");
+    addText("PERFORMANCE MATTERS");
+    addText("HASH TABLES\nSEARCH TREES\nMIND THE CACHE\nPREFETCHING\nOPTIMIZATIONS");
+    addText("HASH TABLES");
 }
 
 

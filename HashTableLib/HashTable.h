@@ -78,7 +78,7 @@ enum class ResultType { DONE, NOT_DONE, OVERFLOWN, NONE };
 inline std::string_view toString(ResultType resultType)
 {
     static std::string_view Done = "DONE";
-    static std::string_view NotDone = "NOT_DONE";
+    static std::string_view NotDone = "NOT DONE";
     static std::string_view Overflown = "OVERFLOWN";
 
     switch (resultType)

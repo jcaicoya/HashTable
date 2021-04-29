@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QStringList>
 
 class QPushButton;
 
@@ -22,6 +21,4 @@ private:
     QPushButton *_firstConclusionButton;
     QPushButton *_secondConclusionButton;
     QPushButton *_thirdConclusionButton;
-
-    QStringList _conclusionList;
 };

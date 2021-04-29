@@ -10,7 +10,7 @@
 PresentationTabWidget::PresentationTabWidget(QWidget *parent)
     : QTabWidget(parent)
 {
-    BeginWidget *beginWidget = new BeginWidget("HASH TABLES");
+    BeginWidget *beginWidget = new BeginWidget("TECH TALKS");
     addTab(beginWidget, "Begin");
 
     setupExample("Matrix",
@@ -58,6 +58,24 @@ PresentationTabWidget::PresentationTabWidget(QWidget *parent)
                      { OperationType::ERASE, 160 }
                  });
 
+
+    setupExample("Square hash",
+                 {
+                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Next, 31},
+                     {hash_table::Type::MATRIX, HashFunction::Type::Square, RehashFunction::Type::Next, 31},
+                 },
+                 {
+                     { OperationType::INSERT, 4 },
+                     { OperationType::INSERT, 5 },
+                     { OperationType::INSERT, 2 },
+                     { OperationType::INSERT, 8 },
+                     { OperationType::INSERT, 15 },
+                     { OperationType::INSERT, 10 },
+                     { OperationType::INSERT, 12 },
+                     { OperationType::INSERT, 11 }
+                 });
+
+
     setupExample("Array",
                  {
                      {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Next, 11},
@@ -74,6 +92,7 @@ PresentationTabWidget::PresentationTabWidget(QWidget *parent)
     setupExample("Collisions II",
                  {
                      {hash_table::Type::ARRAY, HashFunction::Type::Identity, RehashFunction::Type::Next, 11},
+                     {hash_table::Type::MATRIX, HashFunction::Type::Identity, RehashFunction::Type::Next, 11},
                  },
                  {
                      { OperationType::INSERT, 23 },
